@@ -15,8 +15,11 @@ import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Pic from "../assets/Dash1.png";
+import axios from "axios";
+import { BASE_URL } from "../BaseApiUrl";
 export default function CardComp({ title, price, location }) {
   const [expanded, setExpanded] = React.useState(false);
+  const [favButton, setFavButton] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -24,32 +27,37 @@ export default function CardComp({ title, price, location }) {
 
   return (
     <Card elevation={12} sx={{ maxWidth: 345 }}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
-          </Avatar>
-        }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
-      />{" "}
-      <CardMedia component="img" height="194" image={Pic} alt="Paella dish" />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {price}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {location}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-      </CardActions>
+      <div>
+        <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+              R
+            </Avatar>
+          }
+          title="Faizan Mukhtar"
+          subheader="August 08, 2023"
+        />{" "}
+        {/* <CardMedia component="img" height="194" image={Pic} alt="Paella dish" /> */}
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            {title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {price}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {location}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton
+            aria-label="add to favorites"
+            onClick={() => setFavButton(!favButton)}
+          >
+            <FavoriteIcon color={favButton ? "error" : ""} />
+          </IconButton>
+        </CardActions>
+      </div>
     </Card>
   );
 }

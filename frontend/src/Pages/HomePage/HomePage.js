@@ -14,7 +14,6 @@ const HomePage = () => {
 
   useEffect(() => {
     const getToken = localStorage.getItem("token");
-    console.log(getToken);
     setToken(getToken);
   }, []);
   const navigate = useNavigate();

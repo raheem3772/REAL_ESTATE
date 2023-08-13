@@ -1,5 +1,7 @@
 :root {
-  --random: #01353ea1;
+  --random: #8ea7ac5e;
+  --random1: #01353ead;
+  --random2: #ffffff;
 }
 
 body {
@@ -23,7 +25,23 @@ code {
   background-color: var(--random);
   font-weight: 600;
 }
+.btnHover1 {
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px 5px 10px;
+  color: white;
+  background-color: var(--random1);
+  font-weight: 600;
+}
 .btnHover:hover {
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px 5px 10px;
+  color: rgb(10, 2, 2);
+  background-color: white;
+  transition: all 0.5s;
+}
+.btnHover1:hover {
   border: none;
   border-radius: 6px;
   padding: 5px 10px 5px 10px;

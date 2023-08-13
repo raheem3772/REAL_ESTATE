@@ -27,6 +27,7 @@ const Login = () => {
       )
       .then((val) => {
         if (val.status === 200) {
+          localStorage.setItem("user_Id", val["data"]["user_Id"]);
           window.alert(val["data"]["message"]);
           setFormData({
             email: "",
@@ -36,7 +37,7 @@ const Login = () => {
           const token = val["data"]["token"];
           localStorage.setItem("token", token);
           navigate("/home");
-          document.location.reload();
+          // document.location.reload();
         }
       })
       .catch((e) => {

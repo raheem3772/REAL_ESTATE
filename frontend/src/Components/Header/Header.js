@@ -1,6 +1,7 @@
 import React from "react";
 import "./Header.css";
 import { Button } from "@mui/material";
+import { motion } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
 const Header = ({ token }) => {
   const navigate = useNavigate();
@@ -16,11 +17,18 @@ const Header = ({ token }) => {
           <NavLink to="about">About</NavLink>
         </div>
         {token === null ? (
-          <button className="btnHover" onClick={() => navigate("/signup")}>
+          <motion.button
+            whileTap={{ scale: 1.3 }}
+            whileHover={{ scale: 1.1 }}
+            className="btnHover"
+            onClick={() => navigate("/signup")}
+          >
             Register/Login
-          </button>
+          </motion.button>
         ) : (
-          <button
+          <motion.button
+            whileTap={{ scale: 1.3 }}
+            whileHover={{ scale: 1.1 }}
             className="btnHover"
             onClick={() => {
               localStorage.removeItem("token");
@@ -29,7 +37,7 @@ const Header = ({ token }) => {
             }}
           >
             Logout
-          </button>
+          </motion.button>
         )}
       </div>
     </div>
