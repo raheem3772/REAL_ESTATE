@@ -88,7 +88,7 @@ const UserController = {
           if (error) {
             throw error;
           }
-          res.json({ message: "Login successful", token });
+          res.json({ message: "Login successful", token, user_Id: user._id });
         }
       );
     } catch (error) {
