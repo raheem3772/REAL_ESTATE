@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "../../BaseApiUrl";
+import React, { useState } from "react";
+import { BASE_URL } from "../../BaseRealEstate";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -37,7 +36,7 @@ const Login = () => {
           const token = val["data"]["token"];
           localStorage.setItem("token", token);
           navigate("/home");
-          // document.location.reload();
+          document.location.reload();
         }
       })
       .catch((e) => {
@@ -45,50 +44,33 @@ const Login = () => {
         window.alert(e.response["data"]["message"]);
       });
   };
-
   return (
-    <div className="mainContSignUp ">
-      <div className="row">
-        <div className=" col-md-6 "></div>
-        <div className="formCont  col-md-6">
-          <div className="paperForm">
-            <h1 className=" text-center">Login</h1>
-            <div className="my-2">
-              <strong>Email</strong>
-              <input
-                type="email"
-                className="form-control"
-                name="email"
-                placeholder="Type here"
-                value={formData.email}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="my-2">
-              <strong>Password</strong>
-              <input
-                type="password"
-                className="form-control"
-                name="password"
-                value={formData.password}
-                onChange={handleInput}
-              />
-            </div>
-            <div className="btnMargin d-flex justify-content-center">
-              <button className="btnHover" type="button" onClick={handlePost}>
-                Login
-              </button>
-            </div>
-            <div className="my-2 d-flex justify-content-center">
-              <Button
-                className="text-white"
-                onClick={() => navigate("/signup")}
-              >
-                Don't have an accunt!
-              </Button>
-            </div>
-          </div>
-        </div>
+    <div className="textFieldsDiv">
+      <div className="my-2">
+        <strong>Email</strong>
+        <input
+          type="email"
+          className="form-control"
+          name="email"
+          placeholder="Type here"
+          value={formData.email}
+          onChange={handleInput}
+        />
+      </div>
+      <div className="my-2">
+        <strong>Password</strong>
+        <input
+          type="password"
+          className="form-control"
+          name="password"
+          value={formData.password}
+          onChange={handleInput}
+        />
+      </div>
+      <div className="btnMargin d-flex justify-content-center my-4">
+        <button className="btnHover" type="button" onClick={handlePost}>
+          Login
+        </button>
       </div>
     </div>
   );

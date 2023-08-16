@@ -1,0 +1,9 @@
+.favCardsMain {
+  display: flex;
+  justify-content: center;
+}
+
+.favCard {
+  width: 20vw;
+  margin: 1rem 2rem;
+}

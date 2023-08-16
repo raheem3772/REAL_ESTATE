@@ -1,45 +1,73 @@
 import React from "react";
 import "./Header.css";
-import { Button } from "@mui/material";
-import { motion } from "framer-motion";
-import { NavLink, useNavigate } from "react-router-dom";
-const Header = ({ token }) => {
+import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { IconButton } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import AddIcon from "@mui/icons-material/Add";
+const Header = ({ token, setAdminId }) => {
   const navigate = useNavigate();
+
   return (
-    <div className="headerMain">
-      <h2>REAL ESTATE</h2>
-      <div className="navLinks">
-        <div>
-          <NavLink to="home">Home</NavLink>
-          {/* <NavLink to='home'>Register</NavLink> */}
-          <NavLink to="agency">Agency</NavLink>
-          <NavLink to="blogs">Blogs</NavLink>
-          <NavLink to="about">About</NavLink>
-        </div>
-        {token === null ? (
-          <motion.button
-            whileTap={{ scale: 1.3 }}
-            whileHover={{ scale: 1.1 }}
+    <div className="headerMainContainer container">
+      <div className="">
+        <h2 onClick={() => navigate("/home")} className="headerHeadingDiv">
+          REAL HOME ESTATE
+        </h2>
+      </div>
+      <div className="navLinksDiv">
+        <NavLink className="navlinks" to="/buy">
+          Buy
+        </NavLink>
+        <NavLink className="navlinks" to="/rent">
+          Rent
+        </NavLink>
+        <NavLink className="navlinks" to="/sell">
+          Sell
+        </NavLink>
+        <NavLink className="navlinks" to="/agencies">
+          Agencies
+        </NavLink>
+        <NavLink className="navlinks" to="/blog">
+          Blog
+        </NavLink>
+        <NavLink className="navlinks" to="/about">
+          About us
+        </NavLink>
+      </div>
+      {token === null ? (
+        <div className="navLinksDiv">
+          <button
+            title="Login or Register"
             className="btnHover"
             onClick={() => navigate("/signup")}
           >
-            Register/Login
-          </motion.button>
-        ) : (
-          <motion.button
-            whileTap={{ scale: 1.3 }}
-            whileHover={{ scale: 1.1 }}
+            Regester/Login
+          </button>
+        </div>
+      ) : (
+        <div className="navLinksDiv">
+          <IconButton
+            onClick={() => navigate("/favorite")}
+            sx={{ margin: "0 2rem 0 0 " }}
+            title="Favorite Properties"
+          >
+            <FavoriteIcon sx={{ color: "red" }} />
+          </IconButton>
+          <button
+            title="Logout"
             className="btnHover"
             onClick={() => {
+              localStorage.removeItem("user_Id");
               localStorage.removeItem("token");
               document.location.reload();
-              navigate("/signup");
+              setAdminId(null);
             }}
           >
             Logout
-          </motion.button>
-        )}
-      </div>
+          </button>
+        </div>
+      )}
     </div>
   );
 };
