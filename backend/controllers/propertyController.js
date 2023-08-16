@@ -48,6 +48,7 @@ const PropertyController = {
       });
 
       const savedProperty = await newProperty.save();
+      // res.send({ userid: user_id });
       res.status(201).json(savedProperty);
     } catch (error) {
       res.status(500).json({ message: error.message });

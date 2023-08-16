@@ -3,6 +3,8 @@ const router = express.Router();
 const AdminController = require("../controllers/adminController");
 
 // Routes
-router.post("/", AdminController.addAdmin);
+router.post("/make-admin/:userId", AdminController.makeUserAdmin);
+router.get("/", AdminController.getAllAdmins);
+router.get("/:adminId", AdminController.getAdminById);
 
 module.exports = router;

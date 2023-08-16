@@ -4,7 +4,8 @@ const MessageController = require("../controllers/messageController");
 
 // Routes
 
-router.get("/", MessageController.getMessagesByUser);
+router.get("/:userId", MessageController.getMessagesByUser);
+router.get("/property/:propertyId", MessageController.getMessagesByPropertyId); // New route
 router.post("/", MessageController.sendMessage);
 router.delete("/:id", MessageController.deleteMessage);
 

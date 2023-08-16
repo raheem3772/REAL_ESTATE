@@ -3,13 +3,14 @@ const Message = require("../models/Message");
 const MessageController = {
   sendMessage: async (req, res) => {
     try {
-      const { sender_id, receiver_id, message_text } = req.body;
+      const { sender_id, receiver_id, message_text, property_id } = req.body;
 
       // Create a new message
       const newMessage = new Message({
-        sender_id: sender_id,
-        receiver_id: receiver_id,
-        message_text: message_text,
+        sender_id,
+        receiver_id,
+        message_text,
+        property_id,
       });
 
       const savedMessage = await newMessage.save();
@@ -24,8 +25,20 @@ const MessageController = {
 
       // Find messages sent or received by the user
       const messages = await Message.find({
-        $or: [{ sender: userId }, { receiver: userId }],
+        $or: [{ sender_id: userId }, { receiver_id: userId }],
       });
+
+      res.json(messages);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  getMessagesByPropertyId: async (req, res) => {
+    try {
+      const { propertyId } = req.params;
+
+      // Find messages associated with the given property_id
+      const messages = await Message.find({ property_id: propertyId });
 
       res.json(messages);
     } catch (error) {

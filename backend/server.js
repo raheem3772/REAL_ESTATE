@@ -26,6 +26,7 @@ const favoriteRoutes = require("./routes/favorite");
 const reviewRoutes = require("./routes/review");
 const messageRoutes = require("./routes/message");
 const blogRoutes = require("./routes/blog");
+const commentRoutes = require("./routes/comments");
 const adminRoutes = require("./routes/admin");
 
 app.use("/users", userRoutes);
@@ -35,6 +36,7 @@ app.use("/favorites", favoriteRoutes);
 app.use("/reviews", reviewRoutes);
 app.use("/messages", messageRoutes);
 app.use("/blogs", blogRoutes);
+app.use("/comments", commentRoutes);
 app.use("/admins", adminRoutes);
 
 // Start the server
