@@ -15,7 +15,6 @@ const messageSchema = new mongoose.Schema(
     property_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Property",
-      required: true,
     },
     message_text: { type: String, required: true },
   },

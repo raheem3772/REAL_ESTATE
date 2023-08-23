@@ -33,6 +33,7 @@ const BlogController = {
         title,
         content,
         author_id,
+        image: req.file.path,
       });
 
       const savedBlog = await newBlog.save();

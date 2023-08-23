@@ -44,6 +44,7 @@ const AgencyController = {
         description,
         user_id,
         isApproved: false, // Set initial approval status to false
+        image: req.file.path,
       });
 
       const savedAgency = await newAgency.save();

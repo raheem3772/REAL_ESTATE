@@ -6,6 +6,7 @@ const blogSchema = new mongoose.Schema(
     content: { type: String, required: true },
     author_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     publish_date: { type: Date, default: Date.now },
+    image: { type: String },
   },
   {
     timestamps: true,

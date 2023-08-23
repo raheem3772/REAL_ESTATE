@@ -10,6 +10,33 @@ const PropertyController = {
     }
   },
 
+  getPropertyByCity: async (req, res) => {
+    const { cityId } = req.params;
+    try {
+      const properties = await Property.find({ cityId: cityId });
+      res.json(properties);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  getPropertyrent: async (req, res) => {
+    try {
+      const properties = await Property.find({ buyOrRent: "rent" });
+      res.json(properties);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+
+  getPropertybuy: async (req, res) => {
+    try {
+      const properties = await Property.find({ buyOrRent: "buy" });
+      res.json(properties);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+
   getPropertyById: async (req, res) => {
     try {
       const property = await Property.findById(req.params.id);
@@ -23,20 +50,38 @@ const PropertyController = {
   },
 
   addProperty: async (req, res) => {
+    console.log(req.file);
+    console.log(req.files);
     try {
-      const { title, location, price, size, bedrooms, buyOrRent, user_id } =
-        req.body;
+      const {
+        title,
+        location,
+        price,
+        size,
+        bedrooms,
+        buyOrRent,
+        bathrooms,
+        propertyType,
+        phone,
+        description,
+        user_id,
+        cityId,
+      } = req.body;
       if (
         !title ||
         !location ||
         !price ||
         !size ||
-        !bedrooms ||
+        !propertyType ||
         !buyOrRent ||
-        !user_id
+        !phone ||
+        !description ||
+        !user_id ||
+        !cityId
       ) {
         return res.status(400).json({ message: "Please fill all fields" });
       }
+      const images = req.files.map((val) => val.path); // Use val.path to access the file path
       const newProperty = new Property({
         title,
         location,
@@ -45,6 +90,12 @@ const PropertyController = {
         bedrooms,
         buyOrRent,
         user_id,
+        image: images,
+        cityId,
+        bathrooms,
+        propertyType,
+        phone,
+        description,
       });
 
       const savedProperty = await newProperty.save();
@@ -54,11 +105,10 @@ const PropertyController = {
       res.status(500).json({ message: error.message });
     }
   },
-
   updateProperty: async (req, res) => {
     try {
       const { id } = req.params;
-      const { title, location, price, size, bedrooms, type } = req.body;
+      const { title, location, price, size, bedrooms, type, file } = req.body;
 
       // Find the property to update
       const property = await Property.findById(id);
@@ -73,6 +123,7 @@ const PropertyController = {
       property.size = size;
       property.bedrooms = bedrooms;
       property.type = type;
+      property.file = file;
 
       const updatedProperty = await property.save();
       res.json(updatedProperty);
@@ -80,7 +131,24 @@ const PropertyController = {
       res.status(500).json({ message: error.message });
     }
   },
+  makePropertyFeature: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { is_featured } = req.body;
+      // Find the property to update
+      const property = await Property.findById(id);
+      if (!property) {
+        return res.status(404).json({ message: "Property not found" });
+      }
+      // Update property data
+      property.is_featured = is_featured;
 
+      const updatedProperty = await property.save();
+      res.json(updatedProperty);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
   deleteProperty: async (req, res) => {
     try {
       const { id } = req.params;
@@ -93,7 +161,6 @@ const PropertyController = {
         .catch((e) => {
           return res.status(404).json({ message: e.message });
         });
-      return res.status(404).json({ message: "Property not found" });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

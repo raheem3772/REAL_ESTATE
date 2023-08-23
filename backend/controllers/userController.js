@@ -30,6 +30,10 @@ const UserController = {
       if (!email || !password || !username) {
         return res.status(400).json({ message: "Please fill all fields" });
       }
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: "Invalid email format" });
+      }
       // Check if the email is already in use
       const existingUser = await User.findOne({ email });
       if (existingUser) {
@@ -37,6 +41,11 @@ const UserController = {
       }
       if (password !== confirmpassword) {
         return res.status(400).json({ message: "Password does not match" });
+      }
+      if (password.length < 6) {
+        return res
+          .status(400)
+          .json({ message: "Password must be at least 6 characters" });
       }
       // Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -51,10 +60,8 @@ const UserController = {
 
       const savedUser = await newUser.save();
       res.status(201).json(savedUser);
-      console.log("Success");
     } catch (error) {
       res.status(500).json({ message: error.message });
-      console.log("server error");
     }
   },
 
