@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddIcon from "@mui/icons-material/Add";
-const Header = ({ token, setAdminId }) => {
+const Header = ({ token, setAdminId, agencyMainValidation }) => {
   const navigate = useNavigate();
-
+  const userId = localStorage.getItem("user_Id");
   return (
     <div className="headerMainContainer container">
       <div className="">
@@ -16,24 +16,47 @@ const Header = ({ token, setAdminId }) => {
         </h2>
       </div>
       <div className="navLinksDiv">
-        <NavLink className="navlinks" to="/buy">
-          Buy
-        </NavLink>
-        <NavLink className="navlinks" to="/rent">
-          Rent
-        </NavLink>
-        <NavLink className="navlinks" to="/sell">
-          Sell
-        </NavLink>
-        <NavLink className="navlinks" to="/agencies">
-          Agencies
-        </NavLink>
-        <NavLink className="navlinks" to="/blog">
-          Blog
-        </NavLink>
-        <NavLink className="navlinks" to="/about">
-          About us
-        </NavLink>
+        {agencyMainValidation !== null &&
+        agencyMainValidation.includes(userId) ? (
+          <>
+            <NavLink className="navlinks" to="/myproperty">
+              My Properties
+            </NavLink>
+            <NavLink className="navlinks" to="/properties">
+              Properties
+            </NavLink>
+            <NavLink className="navlinks" to="/messages">
+              Messages
+            </NavLink>
+            <NavLink className="navlinks" to="/reviews">
+              Reviews
+            </NavLink>
+            <NavLink className="navlinks" to="/profile">
+              Profile
+            </NavLink>
+          </>
+        ) : (
+          <>
+            <NavLink className="navlinks" to="/buy">
+              Buy
+            </NavLink>
+            <NavLink className="navlinks" to="/rent">
+              Rent
+            </NavLink>
+            <NavLink className="navlinks" to="/properties">
+              Properties
+            </NavLink>
+            <NavLink className="navlinks" to="/agencies">
+              Agencies
+            </NavLink>
+            <NavLink className="navlinks" to="/blog">
+              Blog
+            </NavLink>
+            <NavLink className="navlinks" to="/about">
+              About us
+            </NavLink>
+          </>
+        )}
       </div>
       {token === null ? (
         <div className="navLinksDiv">
@@ -60,6 +83,7 @@ const Header = ({ token, setAdminId }) => {
             onClick={() => {
               localStorage.removeItem("user_Id");
               localStorage.removeItem("token");
+              navigate("/");
               document.location.reload();
               setAdminId(null);
             }}

@@ -95,7 +95,7 @@ const SingleBlogs = ({ token }) => {
           <div className="col-md-6 ">
             <img
               className="imgMainSingleAgency"
-              src="https://mdbootstrap.com/img/new/standard/nature/111.webp"
+              src={BASE_URL + "/" + blogSingleData.image}
               alt=""
             />
           </div>

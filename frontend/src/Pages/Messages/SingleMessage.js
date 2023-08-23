@@ -4,7 +4,7 @@ import SendIcon from "@mui/icons-material/Send";
 import axios from "axios";
 import { BASE_URL } from "../../BaseRealEstate";
 import { useParams } from "react-router-dom";
-const Messages = () => {
+const SingleMessage = () => {
   const [agencyMainData, setAgencyMainData] = useState();
   const [idChatUser, setIdChatUser] = useState(null);
   const [chatUsers, setChatUsers] = useState([]);
@@ -39,7 +39,6 @@ const Messages = () => {
           }
         });
         setChatUsers(arr);
-        console.log(arr);
 
         setMessagesData(val.data);
       })
@@ -61,8 +60,7 @@ const Messages = () => {
         {
           message_text,
           sender_id: user_id,
-          receiver_id: idChatUser,
-          property_id: id,
+          receiver_id: agencyMainData!==undefined&&agencyMainData._id,
         },
         {
           headers: {
@@ -79,67 +77,79 @@ const Messages = () => {
       .catch((e) => console.log(e));
   };
 
-  useEffect(() => {
-    getDataApi();
-  }, [reloadMessagesBool]);
+  const getOnlyMessageByProperty = async () => {
+    await axios
+      .get(BASE_URL + "/users/")
+      .then((val) => {
+        setUserData(val.data);
+      })
+      .catch((e) => console.log(e));
+    await axios
+      .get(BASE_URL + "/messages/" + user_id, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((val) => {
+        console.log(val.data);
+        const arr = [];
+        val.data.map((item) => {
+          if (item.sender_id === user_id && !arr.includes(item.receiver_id)) {
+            arr.push(item.receiver_id);
+          } else if (
+            item.receiver_id === user_id &&
+            !arr.includes(item.sender_id)
+          ) {
+            arr.push(item.sender_id);
+          }
+        });
+        setChatUsers(arr);
+
+        setMessagesData(val.data);
+      })
+      .catch((e) => console.log(e));
+    await axios
+      .get(BASE_URL + "/properties/" + id)
+      .then((val) => {
+        setPropertyId(val.data["user_id"]);
+        setIdChatUser(val.data["user_id"]);
+        setPropertyData(val.data);
+      })
+      .catch((e) => console.log(e));
+  };
 
   const getAgencyDataMain = async () => {
     await axios
       .get(BASE_URL + "/agencymain/" + id)
       .then((val) => {
+        // setPropertyId(val.data["user_id"]);
+        // setIdChatUser(val.data["user_id"]);
         setAgencyMainData(val.data);
       })
       .catch((e) => console.log(e));
   };
   useEffect(() => {
     getAgencyDataMain();
-  }, []);
-
+  });
+  useEffect(() => {
+    getOnlyMessageByProperty();
+  }, [reloadMessagesBool]);
   return (
     <div className="msgMain">
       <div className="userList">
-        {id === undefined ? (
-          userData
-            .filter((val) => chatUsers.includes(val._id))
-            .map((val, i) => {
-              return (
-                <div
-                  onClick={() => {
-                    setIdChatUser(val._id);
-                  }}
-                  className="userChatCard"
-                >
-                  <div className="avatar">{val.username[0]}</div>
-                  <div className="d-flex flex-column">
-                    <small>{val.username}</small>
-                    {/* <small>I'm a React Developer!</small> */}
-                  </div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div className="d-flex flex-column align-items-center">
-                    <small></small>
-                    <small></small>
-                  </div>
-                </div>
-              );
-            })
-        ) : (
-          <div className="userChatCard">
-            <div className="avatar"></div>
-            <div className="d-flex flex-column">
-              <small>
-                {agencyMainData !== undefined && agencyMainData.username}
-              </small>
-              <small>I'm a React Developer!</small>
-            </div>
-            <div className="d-flex flex-column align-items-center">
-              <small>Last Seen</small>
-              <small>02:39</small>
-            </div>
+        <div className="userChatCard">
+          <div className="avatar"></div>
+          <div className="d-flex flex-column">
+            <small>
+              {agencyMainData !== undefined && agencyMainData.username}
+            </small>
+            <small>I'm a React Developer!</small>
           </div>
-        )}
+          <div className="d-flex flex-column align-items-center">
+            <small>Last Seen</small>
+            <small>02:39</small>
+          </div>
+        </div>
       </div>
 
       <div className="userChat">
@@ -147,7 +157,9 @@ const Messages = () => {
           {messagesData
             .filter(
               (item) =>
-                item.receiver_id === idChatUser || item.sender_id === idChatUser
+                agencyMainData !== undefined &&
+                (item.receiver_id === agencyMainData._id ||
+                  item.sender_id === agencyMainData._id)
             )
             .map((val, i) => (
               <div
@@ -188,4 +200,4 @@ const Messages = () => {
   );
 };
 
-export default Messages;
+export default SingleMessage;

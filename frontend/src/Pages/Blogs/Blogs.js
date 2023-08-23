@@ -10,6 +10,7 @@ const Blogs = ({ token }) => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [blogsDataApi, setBlogsDataApi] = useState([]);
+  const [image, setimage] = useState("");
   const user_id = localStorage.getItem("user_Id");
   const [inputData, setInputData] = useState({
     title: "",
@@ -22,21 +23,18 @@ const Blogs = ({ token }) => {
   };
   const handlePostBlog = async () => {
     const { title, content } = inputData;
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("author_id", user_id);
+    formData.append("image", image);
+
     await axios
-      .post(
-        BASE_URL + "/blogs/",
-        {
-          title,
-          content,
-          author_id: user_id,
-          //   publish_date: new Date(),
+      .post(BASE_URL + "/blogs/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      })
       .then((val) => {
         console.log(val);
         if (val.status == 201) {
@@ -90,7 +88,7 @@ const Blogs = ({ token }) => {
               <div className="col-md-4 ">
                 <img
                   className="imgMainSingleBlog"
-                  src="https://mdbootstrap.com/img/new/standard/nature/111.webp"
+                  src={BASE_URL + "/" + val.image}
                   alt=""
                 />
               </div>
@@ -138,6 +136,16 @@ const Blogs = ({ token }) => {
               placeholder="Type here"
               value={inputData.content}
               onChange={handleChange}
+            />
+          </div>
+          <div className="my-2">
+            <strong>Attachment</strong>
+            <input
+              type="file"
+              name="file"
+              accept=".jpeg, .png, .jpg"
+              className="form-control"
+              onChange={(e) => setimage(e.target.files[0])}
             />
           </div>
         </Modal.Body>

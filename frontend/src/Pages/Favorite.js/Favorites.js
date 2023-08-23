@@ -38,7 +38,7 @@ const Favorites = () => {
   }, []);
   return (
     <div className="container my-4">
-    <h1 className='text-center' >Favorite Properties</h1>
+      <h1 className="text-center">Favorite Properties</h1>
       <div className="container favCardsMain row">
         {favApiData
           .filter((val) => val.user_id === user_id)
@@ -46,10 +46,10 @@ const Favorites = () => {
             const propertiess = proprtyData.find(
               (item) => item._id === val.property_id
             );
-            const favProp = console.log(propertiess);
             return (
               <div className="favCard col-md-4">
                 <CardComponent
+                  file={propertiess !== undefined && propertiess.image[0]}
                   title={propertiess !== undefined && propertiess.title}
                   price={propertiess !== undefined && propertiess.price + " $"}
                   location={propertiess !== undefined && propertiess.location}

@@ -46,3 +46,14 @@ code {
   background-color: white;
   transition: all 0.5s;
 }
+.wd100vw {
+  width: 100vw;
+}
+.textClrs {
+  color: #3b803e;
+}
+
+.activeBtn {
+  background-color: #094a0c;
+  padding: 8px 25px 8px 25px;
+}

@@ -1,0 +1,35 @@
+.mainDivProfile {
+  min-height: 80vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+.profileContents {
+  box-shadow: 1px 2px 6px rgba(128, 128, 128, 0.419);
+  min-height: 70vh;
+  width: 70vw;
+  border-radius: 10px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+}
+.inputProfileDiv {
+  display: flex;
+  flex-direction: column;
+  /* border-bottom: 1px solid rgba(128, 128, 128, 0.307); */
+  margin: 6px 0;
+}
+.inputProfile {
+  background-color: transparent;
+  border: 1px solid rgba(128, 128, 128, 0.104);
+  width: 30vw;
+  border-radius: 10px;
+  padding: 6px;
+}
+.rowDivProfile {
+  display: flex;
+  justify-content: space-between;
+  width: 65vw;
+}

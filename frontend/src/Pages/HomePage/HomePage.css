@@ -70,7 +70,7 @@
   justify-content: center;
 }
 .searchBarMain {
-  width: 19vw;
+  width: 1vw;
   height: 8vh;
   border: none;
   outline: none;
@@ -80,7 +80,7 @@
   border-radius: 5px;
 }
 .selectTagMain {
-  width: 19vw;
+  width: 37vw;
   height: 8vh;
   border: none;
   outline: none;
@@ -91,7 +91,7 @@
   border-radius: 5px;
 }
 .btnSearchMain {
-  width: 19vw;
+  width: 25vw;
   border-radius: 5px;
   margin: 1rem 0 0 2rem;
 }

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
-import { BASE_URL } from "../../BaseApiUrl";
 import { useNavigate } from "react-router-dom";
 import CardComponent from "../../Components/CardComponent";
 import AddIcon from "@mui/icons-material/Add";
+import { BASE_URL } from "../../BaseRealEstate";
 
 const Agencies = ({ token, adminId }) => {
   const navigate = useNavigate();
+  const [image, setimage] = useState("");
   const [userData, setUserData] = useState([]);
   const [agencyData, setAgencyData] = useState([]);
   const user_id = localStorage.getItem("user_Id");
@@ -18,28 +19,25 @@ const Agencies = ({ token, adminId }) => {
     rating: 0,
     description: "",
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value });
   };
   const handlePostAgency = async () => {
     const { name, rating, description } = inputData;
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("rating", rating);
+    formData.append("description", description);
+    formData.append("user_id", user_id);
+    formData.append("image", image);
+
     await axios
-      .post(
-        BASE_URL + "/agencies/",
-        {
-          name,
-          rating,
-          description,
-          user_id,
+      .post(BASE_URL + "/agencies/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      })
       .then((val) => {
         console.log(val);
         setAgencyModal(false);
@@ -56,7 +54,7 @@ const Agencies = ({ token, adminId }) => {
   };
   const getApiData = async () => {
     await axios
-      .get(BASE_URL + "/agencies/")
+      .get(BASE_URL + "/agencymain/")
       .then((val) => setAgencyData(val.data))
       .catch((e) => console.log(e));
     await axios
@@ -64,7 +62,6 @@ const Agencies = ({ token, adminId }) => {
       .then((val) => setUserData(val.data))
       .catch((e) => console.log(e));
   };
-
   useEffect(() => {
     getApiData();
   }, [agencyModal]);
@@ -80,52 +77,60 @@ const Agencies = ({ token, adminId }) => {
             Unapproved Agencies
           </button>
         )}
-        {token !== null && (
+        {/* {token !== null && (
           <button
             className="btnHover mt-3"
             onClick={() => setAgencyModal(true)}
           >
             <AddIcon /> Add Agency
           </button>
-        )}
+        )} */}
       </div>
       <div className="container favCardsMain row">
-        {agencyData.map((val) => {
-          const user = userData.find((item) => item._id === val.user_id);
-          const stars = [];
-          for (let i = 1; i <= 5; i++) {
-            if (i <= val.rating) {
-              stars.push("⭐");
-            } else {
-              stars.push("☆");
+        {agencyData
+          .filter((val) => val.verified === true)
+          .map((val) => {
+            const user = userData.find((item) => item._id === val.user_id);
+            const stars = [];
+            for (let i = 1; i <= 5; i++) {
+              if (i <= val.rating) {
+                stars.push("⭐");
+              } else {
+                stars.push("☆");
+              }
             }
-          }
-          return (
-            <motion.div
-              onClick={() => {
-                if (user_id !== null) {
-                  navigate("/agencies/" + val._id);
-                }
-              }}
-              whileTap={{ scale: 1.1 }}
-              whileHover={{ scale: 1.05 }}
-              className=" col-md-6 favCard curserPointer my-4"
-            >
-              <CardComponent
-                handlePostFav={() => {}}
-                property_id={null}
-                userName={user === undefined ? "Loading..." : user["username"]}
-                title={val.name}
-                description={val.description}
-                size={null}
-                bedrooms={null}
-                price={null}
-                location={null}
-                rating={stars}
-              />
-            </motion.div>
-          );
-        })}
+            return (
+              <motion.div
+                onClick={() => {
+                  if (user_id !== null) {
+                    navigate("/agencies/" + val._id);
+                  }
+                }}
+                whileTap={{ scale: 1.1 }}
+                whileHover={{ scale: 1.05 }}
+                className=" col-md-6 favCard curserPointer my-4"
+              >
+                <CardComponent
+                  contactInfo={val.contactInfo}
+                  title={val.username}
+                  file={val.image}
+                  handlePostFav={() => {}}
+                  property_id={null}
+                  userName={
+                    user === undefined ? "Loading..." : user["username"]
+                  }
+                  description={val.description}
+                  size={null}
+                  bedrooms={null}
+                  price={null}
+                  location={null}
+                  rating={stars}
+                  currentUser={user_id}
+                  calIconNav={() => navigate("/login")}
+                />
+              </motion.div>
+            );
+          })}
       </div>
       <Modal
         show={agencyModal}
@@ -156,6 +161,8 @@ const Agencies = ({ token, adminId }) => {
           <div className="my-2">
             <strong>Ratings</strong>
             <input
+              min="0"
+              max="5"
               type="number"
               className="form-control"
               name="rating"
@@ -173,6 +180,16 @@ const Agencies = ({ token, adminId }) => {
               placeholder="Type here"
               value={inputData.description}
               onChange={handleChange}
+            />
+          </div>
+          <div className="my-2">
+            <strong>Attachment</strong>
+            <input
+              type="file"
+              name="file"
+              accept=".jpeg, .png, .jpg"
+              className="form-control"
+              onChange={(e) => setimage(e.target.files[0])}
             />
           </div>
         </Modal.Body>

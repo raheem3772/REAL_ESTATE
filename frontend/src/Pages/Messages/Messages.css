@@ -40,6 +40,9 @@
   justify-content: center;
   font-size: 1.6rem;
   color: #3b803e;
+  background: url("../../assets/avatar.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .inputButton {
   display: flex;

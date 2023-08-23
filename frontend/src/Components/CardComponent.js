@@ -13,6 +13,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import { BASE_URL } from "../BaseRealEstate";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import CallIcon from "@mui/icons-material/Call";
 const CardComponent = ({
   title,
   price,
@@ -31,6 +35,16 @@ const CardComponent = ({
   handleApproveAgency,
   agency_id,
   handleDeleteReq,
+  adminId,
+  file,
+  handlePostFeature,
+  is_featured,
+  handleRemoveFeature,
+  editProperty,
+  handleEdit,
+  handleDeleteProperty,
+  contactInfo,
+  calIconNav,
 }) => {
   const [favPropertyBool, setFavPropertyBool] = useState(false);
   useEffect(() => {
@@ -41,17 +55,27 @@ const CardComponent = ({
     }
   }, []);
   return (
-    <MDBCard>
+    <MDBCard
+      style={{
+        height: property_id === null ? "450px" : "460px",
+      }}
+      className="bg-white"
+    >
       <MDBRipple
+        style={{
+          height: "300px",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
         rippleColor="light"
         rippleTag="div"
-        className="bg-image hover-overlay"
+        className="bg-image bg-white hover-overlay"
       >
         <MDBCardImage
-          src="https://mdbootstrap.com/img/new/standard/nature/111.webp"
+          src={BASE_URL + "/" + file}
           fluid
           alt="..."
-          
+          className="bg-white"
         />
         <a>
           <div
@@ -60,10 +84,13 @@ const CardComponent = ({
           ></div>
         </a>
       </MDBRipple>
-      <MDBCardBody>
-        <MDBCardTitle>{title}</MDBCardTitle>
+      <MDBCardBody
+        className="bg-white"
+        // style={{ height: property_id === null ? "130px" : "300px", bottom: 0 }}
+      >
+        <MDBCardTitle className="text-black">{title}</MDBCardTitle>
         <MDBCardText>
-          <pre>
+          <pre className="text-black">
             {price !== null && `Price: ${price}$`}
             {price && <br />}
             {bedrooms !== null && `Bedrooms: ${bedrooms}-Bedrooms`}
@@ -76,6 +103,10 @@ const CardComponent = ({
             {rating && <br />}
             {description !== null && `Location: ${description}`}
             {description && <br />}
+            {currentUser !== null && (
+              <>{contactInfo !== null && `Contact Info: ${contactInfo}`}</>
+            )}
+            {contactInfo && <br />}
             {/* <span
                         style={{ fontSize: "1.2rem" }}
                         className="text-warning"
@@ -86,7 +117,12 @@ const CardComponent = ({
                       </span> */}
           </pre>
         </MDBCardText>
-        <div className="d-flex">
+        <div className="d-flex bg-white">
+          {currentUser === null && (
+            <IconButton onClick={() => calIconNav()} title="Delete">
+              <CallIcon sx={{ color: "green" }} />
+            </IconButton>
+          )}
           {isApproved !== undefined && (
             <>
               <IconButton
@@ -122,16 +158,63 @@ const CardComponent = ({
               />
             </IconButton>
           )}
-          {currentUser !== null && property_id !== null && (
-            <IconButton
-              onClick={handleMessage}
-              sx={{ margin: "0 2rem 0 0 " }}
-              title="Message"
-            >
-              <MailOutlineIcon sx={{ color: "green" }} />
-            </IconButton>
+          {currentUser !== null &&
+            property_id !== null &&
+            currentUser !== uid && (
+              <IconButton
+                onClick={handleMessage}
+                sx={{ margin: "0 2rem 0 0 " }}
+                title="Message"
+              >
+                <MailOutlineIcon sx={{ color: "green" }} />
+              </IconButton>
+            )}
+          {currentUser === uid && editProperty !== undefined && (
+            <>
+              <IconButton
+                onClick={handleDeleteProperty}
+                sx={{ margin: "0 0 0 0 " }}
+                title="Delete Property"
+              >
+                <DeleteOutlineIcon />
+              </IconButton>
+
+              <IconButton
+                onClick={handleEdit}
+                sx={{ margin: "0 2rem 0 0 " }}
+                title="Edit Property"
+              >
+                <EditIcon />
+              </IconButton>
+            </>
           )}
         </div>
+        {adminId !== null &&
+          is_featured === false &&
+          adminId.includes(currentUser) &&
+          handlePostFeature !== undefined && (
+            <Button
+              onClick={() => {
+                console.log(property_id);
+                handlePostFeature(property_id);
+              }}
+            >
+              Add to features
+            </Button>
+          )}
+        {adminId !== null &&
+          is_featured === true &&
+          adminId.includes(currentUser) &&
+          handleRemoveFeature !== undefined && (
+            <Button
+              onClick={() => {
+                console.log(property_id);
+                handleRemoveFeature(property_id);
+              }}
+            >
+              Remove to features
+            </Button>
+          )}
       </MDBCardBody>
     </MDBCard>
   );

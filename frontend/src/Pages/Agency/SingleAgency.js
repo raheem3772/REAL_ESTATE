@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 import "./SingleAgencyMain.css";
 import Pic from "../../assets/Dash1.png";
 import axios from "axios";
-import { BASE_URL } from "../../BaseApiUrl";
+import Avatar from "../../assets/avatar.png";
+
 import {
   Card,
   CardSubtitle,
@@ -15,6 +16,7 @@ import {
   Form,
   Input,
 } from "reactstrap";
+import { BASE_URL } from "../../BaseRealEstate";
 const SingleAgency = ({ token }) => {
   const [userData, setUserData] = useState([]);
   const [ratingsStar, setratingsStar] = useState([]);
@@ -26,7 +28,7 @@ const SingleAgency = ({ token }) => {
   const [agencySingleData, setAgencySingleData] = useState({});
   const getDataById = async () => {
     await axios
-      .get(BASE_URL + "/agencies/" + _id)
+      .get(BASE_URL + "/agencyMain/" + _id)
       .then((val) => {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
@@ -84,26 +86,34 @@ const SingleAgency = ({ token }) => {
           <div className="col-md-6 ">
             <img
               className="imgMainSingleAgency"
-              src="https://mdbootstrap.com/img/new/standard/nature/111.webp"
+              src={BASE_URL + "/" + agencySingleData.image}
               alt=""
             />
           </div>
           <div className="col-md-6 d-flex justify-content-center flex-column">
-            <h2 className="text-black">
+            <h2 className="textClrs">
               {_id === undefined || _id === null
                 ? "Loading..."
-                : agencySingleData.name}
+                : agencySingleData.username}
             </h2>
-            <p>
+            <h5>
+              Contact Info:{" "}
+              <span className="textClrs">
+                {_id === undefined || _id === null
+                  ? "Loading..."
+                  : agencySingleData.contactInfo}
+              </span>
+            </h5>
+            <h6 className="my-4">
               {_id === undefined || _id === null
                 ? "Loading..."
                 : agencySingleData.description}
-            </p>
-            <strong>
+            </h6>
+            {/* <strong>
               {_id === undefined || _id === null
                 ? "Loading..."
                 : `Ratings: ${ratingsStar.join("")}`}
-            </strong>
+            </strong> */}
           </div>
         </div>
       </div>
@@ -153,7 +163,7 @@ const SingleAgency = ({ token }) => {
                   <div className="user-details">
                     <CardImg
                       className="avatar"
-                      src="https://images.pexels.com/photos/7129713/pexels-photo-7129713.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                      src={Avatar}
                       alt="user avatar"
                     />
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
@@ -185,6 +195,8 @@ const SingleAgency = ({ token }) => {
             onChange={handleChange}
           />
           <Input
+            min="0"
+            max="5"
             className="reviews-form"
             type="number"
             name="rating"

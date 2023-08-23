@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { BASE_URL } from "../../BaseApiUrl";
 import { useNavigate } from "react-router-dom";
 import CardComponent from "../../Components/CardComponent";
+import { BASE_URL } from "../../BaseRealEstate";
 
 const UnApprovedAgencies = ({ token }) => {
   const [booldRelaod, setBooldRelaod] = useState(false);
@@ -13,7 +13,7 @@ const UnApprovedAgencies = ({ token }) => {
 
   const getApiData = async () => {
     await axios
-      .get(BASE_URL + "/agencies/na")
+      .get(BASE_URL + "/agencymain/na")
       .then((val) => setAgencyData(val.data))
       .catch((e) => console.log(e));
     await axios
@@ -23,28 +23,25 @@ const UnApprovedAgencies = ({ token }) => {
   };
   const handleApproveAgency = async (id) => {
     await axios
-      .put(
-        BASE_URL + "/agencies/approveagency/" + id,
-        {
-          isApproved: true,
+      .put(BASE_URL + "/agencymain/approve/" + id, {
+        headers: {
+          "Content-Type": "application/json",
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      })
       .then((val) => {
         if (val.status === 200) {
           setBooldRelaod(!booldRelaod);
-          window.alert("Agency created successfully!");
+          window.alert("Agency verified successfully!");
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        window.alert("Something went wrong!");
+        console.log(e);
+      });
   };
   const handleDeleteReq = async (id) => {
     await axios
-      .delete(BASE_URL + "/agencies/" + id, {
+      .delete(BASE_URL + "/agencymain/signup/" + id, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -55,7 +52,10 @@ const UnApprovedAgencies = ({ token }) => {
           window.alert(val.data["message"]);
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        window.alert("Something went wrong");
+        console.log(e);
+      });
   };
   useEffect(() => {
     getApiData();
@@ -84,10 +84,12 @@ const UnApprovedAgencies = ({ token }) => {
               className=" col-md-6 favCard curserPointer my-4"
             >
               <CardComponent
+                contactInfo={val.contactInfo}
+                file={val.image}
                 handlePostFav={() => {}}
                 property_id={null}
                 userName={user === undefined ? "Loading..." : user["username"]}
-                title={val.name}
+                title={val.username}
                 description={val.description}
                 size={null}
                 bedrooms={null}
