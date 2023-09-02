@@ -7,7 +7,8 @@ import { Button } from "@mui/material";
 const SignUp = () => {
   const [boolRegisterAgency, setBoolRegisterAgency] = useState(false);
   const [image, setImage] = useState("");
-  const [docs, setDocs] = useState([]);
+  const [imageUser, setImageUser] = useState("");
+  const [docs, setDocs] = useState("");
   const navigate = useNavigate();
   const [inputData, setInputData] = useState({
     username: "",
@@ -23,21 +24,18 @@ const SignUp = () => {
   };
   const handlePost = async () => {
     const { username, email, password, confirmpassword } = inputData;
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("confirmpassword", confirmpassword);
+    formData.append("image", imageUser);
     await axios
-      .post(
-        BASE_URL + "/users/signup/",
-        {
-          username,
-          email,
-          password,
-          confirmpassword,
+      .post(BASE_URL + "/users/signup/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-        {
-          Headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      })
       .then((val) => {
         if (val.status) {
           window.alert("User register successfully");
@@ -74,6 +72,7 @@ const SignUp = () => {
     formData.append("contactInfo", contactInfo);
     formData.append("description", description);
     formData.append("image", image);
+    formData.append("docs", docs);
     // for (let i = 0; i < docs.length; i++) {
     //   formData.append("files", docs);
     // }
@@ -85,7 +84,6 @@ const SignUp = () => {
       })
       .then((val) => {
         if (val.status === 201) {
-          console.log(val);
           setInputData({
             username: "",
             email: "",
@@ -95,7 +93,7 @@ const SignUp = () => {
             description: "",
           });
           setImage("");
-          setDocs([]);
+          setDocs("");
           window.alert("Agency created successfully!");
         }
       })
@@ -151,6 +149,16 @@ const SignUp = () => {
               name="confirmpassword"
               value={inputData.confirmpassword}
               onChange={handleInput}
+            />
+          </div>
+          <div className="my-2">
+            <strong>Attachment</strong>
+            <input
+              type="file"
+              className="form-control"
+              name="image"
+              accept=".jpeg, .png, .jpg"
+              onChange={(e) => setImageUser(e.target.files[0])}
             />
           </div>
           <div className=" d-flex justify-content-center">
@@ -235,7 +243,7 @@ const SignUp = () => {
                 className="form-control"
                 name="docs"
                 accept=".pdf"
-                onChange={(e) => setDocs(e.target.files)}
+                onChange={(e) => setDocs(e.target.files[0])}
               />
             </div>
           </div>

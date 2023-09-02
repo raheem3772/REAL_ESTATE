@@ -6,6 +6,7 @@ import CardComponent from "../../Components/CardComponent";
 import { BASE_URL } from "../../BaseRealEstate";
 
 const UnApprovedAgencies = ({ token }) => {
+  const user_id = localStorage.getItem("user_Id");
   const [booldRelaod, setBooldRelaod] = useState(false);
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
@@ -84,6 +85,11 @@ const UnApprovedAgencies = ({ token }) => {
               className=" col-md-6 favCard curserPointer my-4"
             >
               <CardComponent
+                handleReadMore={() => {
+                  if (user_id !== null) {
+                    navigate("/agencies/" + val._id);
+                  }
+                }}
                 contactInfo={val.contactInfo}
                 file={val.image}
                 handlePostFav={() => {}}

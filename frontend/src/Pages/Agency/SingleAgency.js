@@ -17,7 +17,7 @@ import {
   Input,
 } from "reactstrap";
 import { BASE_URL } from "../../BaseRealEstate";
-const SingleAgency = ({ token }) => {
+const SingleAgency = ({ token, adminId }) => {
   const [userData, setUserData] = useState([]);
   const [ratingsStar, setratingsStar] = useState([]);
   const [reloadReviewsBool, setReloadReviewsBool] = useState(false);
@@ -90,7 +90,7 @@ const SingleAgency = ({ token }) => {
               alt=""
             />
           </div>
-          <div className="col-md-6 d-flex justify-content-center flex-column">
+          <div className="col-md-6 d-flex justify-content-center flex-column align-items-start ">
             <h2 className="textClrs">
               {_id === undefined || _id === null
                 ? "Loading..."
@@ -114,6 +114,20 @@ const SingleAgency = ({ token }) => {
                 ? "Loading..."
                 : `Ratings: ${ratingsStar.join("")}`}
             </strong> */}
+            {adminId!==null&&
+              
+              adminId.includes(user_id) && (
+              <button
+                className="btnHover"
+                onClick={() => {
+                  window.open(BASE_URL + "/" + agencySingleData.docs, "_blank");
+
+                  console.log(BASE_URL + "/" + agencySingleData.docs);
+                }}
+              >
+                Check Docs
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -156,6 +170,7 @@ const SingleAgency = ({ token }) => {
                   stars.push("☆");
                 }
               }
+
               const ratingsArray = new Array(parseInt(val.rating)).fill(null);
               const user = userData.find((item) => item._id === val.user_id);
               return (
@@ -163,8 +178,12 @@ const SingleAgency = ({ token }) => {
                   <div className="user-details">
                     <CardImg
                       className="avatar"
-                      src={Avatar}
-                      alt="user avatar"
+                      src={
+                        user !== null && user !== undefined
+                          ? BASE_URL + "/" + user.image
+                          : Avatar
+                      }
+                      alt=""
                     />
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
                       {user !== undefined && user.username}

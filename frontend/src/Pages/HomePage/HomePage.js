@@ -14,16 +14,28 @@ import CardComponent from "../../Components/CardComponent";
 import { motion } from "framer-motion";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import HomePageData from "./HomePageData";
-const HomePage = ({ token, adminId }) => {
+const HomePage = ({
+  token,
+  adminId,
+  setMinPrice,
+  setMaxPrice,
+  minPrice,
+  maxPrice,
+  setDropdownSearch,
+  dropdownSearch,
+  refreshSearchData,
+  setRefreshSearchData,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchDropdownBool, setSearchDropdownBool] = useState(false);
-  const [dropdownSearch, setDropdownSearch] = useState("");
   const shouldShowmyproperty = location.pathname === "/myproperty";
+  const shouldShowAbout = location.pathname === "/about";
   const shouldShowproperties = location.pathname === "/properties";
   const shouldShowbuy = location.pathname === "/buy";
   const [reloadData, setReloadData] = useState(false);
   const shouldShowhome = location.pathname === "/home";
+  const shouldShowSearch = location.pathname === "/search/";
   const shouldShowrent = location.pathname === "/rent";
   const [citySearch, setCitySearch] = useState("");
   const [favApiData, setFavApiData] = useState([]);
@@ -150,9 +162,8 @@ const HomePage = ({ token, adminId }) => {
   const handleChangeDropdown = (e) => {
     const { name, value } = e.target.value;
     setDropdownSearch(value);
-    console.log(value);
-    console.log(dropdownSearch);
   };
+
   useEffect(() => {
     getDataProperty();
   }, [propertyModal]);
@@ -168,9 +179,7 @@ const HomePage = ({ token, adminId }) => {
       setSelectedButton("Buy");
     }
   }, [shouldShowbuy, shouldShowrent, shouldShowhome, shouldShowproperties]);
-  useEffect(() => {
-    console.log(dropdownSearch);
-  }, [dropdownSearch]);
+
   return (
     <div className="homePageMainContainer">
       <div className="backgroundFilter"></div>
@@ -184,7 +193,7 @@ const HomePage = ({ token, adminId }) => {
           agent or commissions.
         </p>
       </div>
-      {!shouldShowproperties && (
+      {!shouldShowproperties && !shouldShowAbout && (
         <div className="mainTotalSearchbar ">
           <div className="typeSearchBar">
             {shouldShowbuy && (
@@ -255,29 +264,56 @@ const HomePage = ({ token, adminId }) => {
                   ))}
                 </select>
               </div>
-
               <div className="d-flex flex-column">
                 <strong>Select Property:</strong>
                 <input
-                  placeholder="Enter title"
+                  placeholder="Enter name"
                   name="dropdownSearch"
                   id="dropdownSearch"
                   className="selectTagMain"
                   value={dropdownSearch}
                   onChange={(e) => {
                     setDropdownSearch(e.target.value);
-                    if (dropdownSearch.length === 0) {
-                      setSearchDropdownBool(false);
-                    } else {
-                      setSearchDropdownBool(true);
-                    }
+                  }}
+                />
+              </div>
+              <div className="d-flex flex-column">
+                <strong>Min Price:</strong>
+                <input
+                  type="number"
+                  placeholder="Enter max price"
+                  name="minPrice"
+                  id="minPrice"
+                  className="selectTagMain"
+                  value={minPrice}
+                  onChange={(e) => {
+                    setMinPrice(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="d-flex flex-column">
+                <strong>Max Price:</strong>
+                <input
+                  type="number"
+                  placeholder="Enter max price"
+                  name="maxPrice"
+                  id="maxPrice"
+                  className="selectTagMain"
+                  value={maxPrice}
+                  onChange={(e) => {
+                    setMaxPrice(e.target.value);
                   }}
                 />
               </div>
             </div>
             <button
               onClick={() => {
-                navigate("/search/" + citySearch);
+                if (citySearch.length > 0) {
+                  navigate("/search/" + citySearch);
+                  setRefreshSearchData(!refreshSearchData);
+                } else {
+                  window.alert("Please select city!");
+                }
               }}
               className="btnHover btnSearchMain"
             >
@@ -293,8 +329,16 @@ const HomePage = ({ token, adminId }) => {
             {propertyData
               .filter(
                 (val) =>
-                  propertyData.length !== 0 &&
-                  val.title.toLowerCase().includes(dropdownSearch.toLowerCase())
+                  (propertyData.length !== 0 &&
+                    dropdownSearch.length > 0 &&
+                    val.title
+                      .toLowerCase()
+                      .includes(dropdownSearch.toLowerCase())) ||
+                  (propertyData.length !== 0 &&
+                    minPrice.length > 0 &&
+                    maxPrice.length > 0 &&
+                    val.price >= minPrice &&
+                    val.price <= maxPrice)
               )
               .map((val, i) => {
                 const favProperty = favApiData.find(

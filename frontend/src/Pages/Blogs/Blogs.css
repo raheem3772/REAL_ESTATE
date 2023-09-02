@@ -36,7 +36,6 @@
 }
 .reviews-topBlog {
   box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.4);
-  padding: 20px;
 }
 .user-detailsBlog {
   align-items: center;
@@ -95,6 +94,28 @@ h6 {
   width: 25vw;
 }
 .dyn-height {
-  max-height: 20vh;
-  overflow-y: scroll;
+  /* max-height: 20vh; */
+  /* overflow-y: scroll; */
+}
+.imageBlogSingle {
+  width: 80vw;
+  border-radius: 20px;
+  box-shadow: 2px 4px 7px grey;
+  margin: 1rem;
+}
+.descriptionBlogSingle {
+  /* width: 80vw; */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: start;
+}
+.descriptionBlogSingle p {
+  width: 60vw;
+  color: rgba(128, 128, 128, 0.599);
+  margin-top: 10px;
+}
+
+.descriptionBlogSingle div {
+  width: 60vw;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
+import { Button, ButtonGroup, Carousel } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import "../Agency/SingleAgencyMain.css";
 import Pic from "../../assets/Dash1.png";
@@ -27,6 +27,11 @@ const SingleProperty = ({ token }) => {
   const [propertySingleData, setpropertySingleData] = useState({});
   const [imagesProperty, setimagesProperty] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex) => {
+    setIndex(selectedIndex);
+  };
   const getDataById = async () => {
     await axios
       .get(BASE_URL + "/properties/" + _id)
@@ -36,34 +41,38 @@ const SingleProperty = ({ token }) => {
       })
       .catch((e) => console.log(e));
   };
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInputData({ ...inputData, [name]: value });
-  };
-
   useEffect(() => {
     getDataById();
-    console.log(imagesProperty);
   }, [imagesProperty]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % imagesProperty.length);
-    }, 3000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentIndex((prevIndex) => (prevIndex + 1) % imagesProperty.length);
+  //   }, 3000);
 
-    return () => clearInterval(interval);
-  }, [imagesProperty.length]);
+  //   return () => clearInterval(interval);
+  // }, [imagesProperty.length]);
 
   return (
     <div className="singleAgencyMain">
       <div className=" container containers">
         <div className="row  rowDivMain">
           <div className="col-md-6 ">
-            <img
-              className="imgMainSingleAgency"
-              src={BASE_URL + "/" + imagesProperty[currentIndex]}
-              alt=""
-            />
+            <Carousel
+              data-bs-theme="dark"
+              activeIndex={index}
+              onSelect={handleSelect}
+            >
+              {imagesProperty.map((val, i) => (
+                <Carousel.Item>
+                  <img
+                    className="imgSingleProperty"
+                    src={BASE_URL + "/" + val}
+                    alt=""
+                  />
+                </Carousel.Item>
+              ))}
+            </Carousel>
           </div>
           <div className="col-md-6 d-flex justify-content-center flex-column">
             <h2 className="textClrs">
@@ -126,18 +135,20 @@ const SingleProperty = ({ token }) => {
                 </span>
               </strong>
               <br />
-              <small className="my-4">
+              {/* <small className="my-4">
                 {_id === undefined || _id === null
                   ? "Loading..."
                   : propertySingleData.description}
-              </small>
+              </small> */}
             </pre>
-            {/* <strong>
-              {_id === undefined || _id === null
-                ? "Loading..."
-                : `Ratings: ${ratingsStar.join("")}`}
-            </strong> <br /> */}
           </div>
+        </div>
+        <div className="my-4 d-flex justify-content-center ">
+          <small className=" text-secondary text-center">
+            {_id === undefined || _id === null
+              ? "Loading..."
+              : propertySingleData.description}
+          </small>
         </div>
       </div>
     </div>

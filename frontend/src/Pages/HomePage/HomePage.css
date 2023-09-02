@@ -80,7 +80,7 @@
   border-radius: 5px;
 }
 .selectTagMain {
-  width: 37vw;
+  width: 19vw;
   height: 8vh;
   border: none;
   outline: none;
@@ -91,7 +91,7 @@
   border-radius: 5px;
 }
 .btnSearchMain {
-  width: 25vw;
+  width: 19vw;
   border-radius: 5px;
   margin: 1rem 0 0 2rem;
 }
@@ -169,4 +169,8 @@
   padding: 1rem;
   border-radius: 1rem;
   transition: all 0.5s;
+}
+.propertySliderMain {
+  flex-wrap: nowrap;
+  /* overflow-x: scroll; */
 }

@@ -25,8 +25,13 @@ import Reviews from "./Pages/Reviews/Reviews";
 import SingleMessage from "./Pages/Messages/SingleMessage";
 import Profile from "./Pages/Profile/Profile";
 import SingleProperty from "./Pages/Sell/SingleProperty";
+import Aboutus from "./Pages/AboutUS/Aboutus";
 function App() {
+  const [refreshSearchData, setRefreshSearchData] = useState(false);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
   const [agencyMainValidation, setAgencyMainValidation] = useState([]);
+  const [dropdownSearch, setDropdownSearch] = useState("");
   const [adminId, setAdminId] = useState(null);
   const [token, setToken] = useState();
   const location = useLocation(); // Get the current location
@@ -65,13 +70,13 @@ function App() {
     const gettoken = localStorage.getItem("token");
     setToken(gettoken);
   }, [token]);
-  // useEffect(() => {
-  //   // Set the default headers for all Axios requests
-  //   axios.defaults.headers.common = {
-  //     ...axios.defaults.headers.common,
-  //     "ngrok-skip-browser-warning": "69420",
-  //   };
-  // }, []);
+  useEffect(() => {
+    // Set the default headers for all Axios requests
+    axios.defaults.headers.common = {
+      ...axios.defaults.headers.common,
+      "ngrok-skip-browser-warning": "69420",
+    };
+  }, []);
   useEffect(() => {
     getAdminId();
   }, []);
@@ -81,13 +86,29 @@ function App() {
         <Header
           token={token}
           setAdminId={setAdminId}
+          adminId={adminId}
           agencyMainValidation={agencyMainValidation}
         />
       )}
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
 
-        <Route element={<HomePage token={token} adminId={adminId} />}>
+        <Route
+          element={
+            <HomePage
+              token={token}
+              adminId={adminId}
+              setMinPrice={setMinPrice}
+              setMaxPrice={setMaxPrice}
+              minPrice={minPrice}
+              maxPrice={maxPrice}
+              dropdownSearch={dropdownSearch}
+              setDropdownSearch={setDropdownSearch}
+              setRefreshSearchData={setRefreshSearchData}
+              refreshSearchData={refreshSearchData}
+            />
+          }
+        >
           <Route
             path="/home"
             element={<HomePageData token={token} adminId={adminId} />}
@@ -114,7 +135,21 @@ function App() {
             }
           />
           <Route path="/rent" element={<Rent />} />
-          <Route path="/search/:id" element={<Search token={token} />} />
+          <Route
+            path="/search/:id"
+            element={
+              <Search
+                token={token}
+                setMinPrice={setMinPrice}
+                setMaxPrice={setMaxPrice}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+                dropdownSearch={dropdownSearch}
+                setDropdownSearch={setDropdownSearch}
+                refreshSearchData={refreshSearchData}
+              />
+            }
+          />
         </Route>
         <Route path="/reviews" element={<Reviews />} />
         <Route element={<AuthPage />}>
@@ -134,10 +169,13 @@ function App() {
             element={<UnApprovedAgencies token={token} />}
           />
         )}
-        <Route path="/agencies/:_id" element={<SingleAgency />} />
+        <Route
+          path="/agencies/:_id"
+          element={<SingleAgency adminId={adminId} token={token} />}
+        />
         <Route path="/properties/:_id" element={<SingleProperty />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/about" element={<HomePage />} />
+        <Route path="/about" element={<Aboutus />} />
         <Route path="/messages/:id" element={<SingleMessage />} />
         <Route path="/messages" element={<Messages />} />
       </Routes>

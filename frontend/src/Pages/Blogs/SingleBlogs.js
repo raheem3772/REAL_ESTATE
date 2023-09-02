@@ -4,6 +4,7 @@ import "./Blogs.css";
 import axios from "axios";
 import { BASE_URL } from "../../BaseRealEstate";
 import { Button } from "react-bootstrap";
+import AvatarPic from "../../assets/avatar.png";
 import {
   Card,
   CardBody,
@@ -29,7 +30,6 @@ const SingleBlogs = ({ token }) => {
       .get(BASE_URL + "/blogs/" + _id)
       .then((val) => {
         idUser = val.data["author_id"];
-        console.log(idUser);
         setBlogSingleData(val.data);
       })
       .catch((e) => console.log(e));
@@ -90,41 +90,47 @@ const SingleBlogs = ({ token }) => {
 
   return (
     <div className="singleAgencyMain">
-      <div className=" container containers">
-        <div className="row  rowDivMain">
-          <div className="col-md-6 ">
-            <img
-              className="imgMainSingleAgency"
-              src={BASE_URL + "/" + blogSingleData.image}
-              alt=""
-            />
-          </div>
-          <div className="col-md-6 d-flex justify-content-center flex-column">
-            <h2 className="text-black">{blogSingleData.title}</h2>
-            <p>{blogSingleData.content}</p>
-            <strong>{blogUserData.username}</strong>
-            <strong>
-              {blogSingleData.publish_date !== undefined &&
-                blogSingleData.publish_date.split("T", 1)}
-            </strong>
-          </div>
+      <h1 className="text-center text-success ">{blogSingleData.title}</h1>
+      <div className="d-flex justify-content-center">
+        <img
+          className="imageBlogSingle"
+          src={blogSingleData !== {} && BASE_URL + "/" + blogSingleData.image}
+          alt=""
+        />
+      </div>
+      <div className="descriptionBlogSingle">
+        <p>{blogSingleData.content}</p>
+        <div>
+          <strong className="text-success ">
+            Author: {blogUserData.username} <br />
+            Publish Date:{" "}
+            {blogSingleData.publish_date !== undefined &&
+              blogSingleData.publish_date.split("T", 1)}
+            <br />
+          </strong>
         </div>
       </div>
       <div className="container d-flex justify-content-evenly my-4"></div>
       <Card className="cardMainAgencySingle">
         <CardBody>
-          <CardTitle tag="h1">Comments</CardTitle>
+          <CardTitle tag="h1">Leave a Comment</CardTitle>
           {commentsData
             .filter((item) => item.blog_id === _id)
             .map((val, i) => {
               const user = userData.find((item) => item._id === val.author_id);
               return (
-                <div key={val._id} className="reviews-top mt-4">
+                <div
+                  key={val._id}
+                  className="reviews-top mt-4 px-lg-4 py-1 rounded-3 "
+                >
                   <div className="user-details">
                     <CardImg
                       className="avatar"
-                      src="https://images.pexels.com/photos/7129713/pexels-photo-7129713.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                      alt="user avatar"
+                      src={
+                        user !== null && user !== undefined
+                          ? BASE_URL + "/" + user.image
+                          : AvatarPic
+                      }
                     />
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
                       {user !== undefined && user.username}
@@ -137,9 +143,7 @@ const SingleBlogs = ({ token }) => {
                     </CardText>
                   </div>
                   <CardText>
-                    <small className="text-muted text-bold">
-                      {/* {timestamp || "3 mins ago"} */}
-                    </small>
+                    <small className="text-muted text-bold"></small>
                   </CardText>
                 </div>
               );

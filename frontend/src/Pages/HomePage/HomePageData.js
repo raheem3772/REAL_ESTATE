@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./HomePage.css";
 import { Button, IconButton } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
@@ -15,10 +15,15 @@ import { BASE_URL, convertTOBase64 } from "../../BaseRealEstate";
 import CardComponent from "../../Components/CardComponent";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 const HomePageData = ({ token, adminId }) => {
   const navigate = useNavigate();
   const [reloadData, setReloadData] = useState(false);
   const [favApiData, setFavApiData] = useState([]);
+  const [showModalSingleProperty, setShowModalSingleProperty] = useState(false);
+  const [propertySingleData, setpropertySingleData] = useState({});
   const user_id = localStorage.getItem("user_Id");
   const [propertyData, setpropertyData] = useState([]);
   const handlePostFav = async (property_id) => {
@@ -59,17 +64,19 @@ const HomePageData = ({ token, adminId }) => {
       .then((val) => setpropertyData(val.data))
       .catch((e) => console.log(e));
   };
-  const itemsPerPage = 3;
-  const [activeSlide, setActiveSlide] = useState(0);
-
-  const totalSlides = Math.ceil(propertyData.length / itemsPerPage);
-  const handleSelect = (selectedIndex) => {
-    setActiveSlide(selectedIndex);
-  };
 
   useEffect(() => {
     getPropertyData();
   }, [reloadData]);
+  const handleMessage = async (id) => {
+    await axios
+      .get(BASE_URL + "/properties/" + id)
+      .then((val) => {
+        setShowModalSingleProperty(true);
+        setpropertySingleData(val.data);
+      })
+      .catch((e) => console.log(e));
+  };
 
   return (
     <div>
@@ -111,27 +118,110 @@ const HomePageData = ({ token, adminId }) => {
           </div>
         </div>
       </div>
-      {propertyData.filter((val) => val.buyOrRent === "buy").length !== 0 && (
+      {propertyData.filter((val) => val.is_featured === true).length !== 0 && (
         <div className="my-4">
-          <h2>Properties for Buy</h2>
-          <div className="container propertyCardsMain  row wd100vw">
+          <h2 className="mb-4 text-center">Feature Property</h2>
+
+          <Slider
+            infinite={true}
+            slidesToShow={
+              (propertyData.filter((val) => val.is_featured === true).length ===
+                1 &&
+                1) ||
+              (propertyData.filter((val) => val.is_featured === true).length ===
+                2 &&
+                2) ||
+              (propertyData.filter((val) => val.is_featured === true).length >
+                2 &&
+                3)
+            }
+            slidesToScroll={1}
+            autoplay={true}
+            autoplaySpeed={3000} // Adjust the autoplay speed as needed
+            arrows={false}
+            className="container propertyCardsMain row propertySliderMain justify-content-start"
+          >
             {propertyData
-              .filter((val) => val.buyOrRent === "buy")
+              .filter((val) => val.is_featured === true)
               .map((val, i) => {
                 const favProperty = favApiData.find(
                   (item) => item.property_id === val._id
                 );
                 return (
                   <motion.div
-                    onClick={() => {
-                      if (user_id !== null) {
-                        navigate("/properties/" + val._id);
-                      }
-                    }}
                     key={val._id}
                     whileTap={{ scale: 1.1 }}
                     whileHover={{ scale: 1.05 }}
-                    className="propertyCard col-md-4 curserPointer"
+                    className="propertyCard bg-white col-md-4 curserPointer "
+                  >
+                    <CardComponent
+                      key={val._id}
+                      is_featured={val.is_featured}
+                      adminId={adminId}
+                      handlePostFeature={() => {}}
+                      file={val.image[0]}
+                      uid={val.user_id}
+                      currentUser={user_id}
+                      title={val.title}
+                      price={val.price}
+                      bedrooms={val.bedrooms}
+                      size={val.size}
+                      location={val.location}
+                      rating={null}
+                      handlePostFav={handlePostFav}
+                      property_id={val._id}
+                      fav_id={
+                        favProperty !== undefined && favProperty.property_id
+                      }
+                      description={null}
+                      handleMessage={() => handleMessage(val._id)}
+                      handleReadMore={() => {
+                        if (user_id !== null) {
+                          navigate("/properties/" + val._id);
+                        }
+                      }}
+                    />
+                  </motion.div>
+                );
+              })}
+          </Slider>
+        </div>
+      )}
+      {propertyData.filter((val) => val.buyOrRent === "buy").length !== 0 && (
+        <div className="my-4">
+          <h2 className="mb-4 text-center">Properties for Buy</h2>
+          <Slider
+            infinite={true}
+            slidesToShow={
+              (propertyData.filter((val) => val.buyOrRent === "buy").length ===
+                1 &&
+                1) ||
+              (propertyData.filter((val) => val.buyOrRent === "buy").length ===
+                2 &&
+                2) ||
+              (propertyData.filter((val) => val.buyOrRent === "buy").length >
+                2 &&
+                3)
+            } // Change this to the number of visible slides at a time
+            slidesToScroll={1}
+            autoplay={true}
+            autoplaySpeed={3000} // Adjust the autoplay speed as needed
+            arrows={true}
+            className="container propertyCardsMain row propertySliderMain justify-content-start"
+          >
+            {propertyData
+              .filter((val) => val.buyOrRent === "buy")
+              .slice(0, 10)
+              .map((val, i) => {
+                const favProperty = favApiData.find(
+                  (item) => item.property_id === val._id
+                );
+                return (
+                  <motion.div
+                    key={val._id}
+                    whileTap={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.05 }}
+                    className="propertyCard bg-white col-md-4 curserPointer"
                   >
                     <CardComponent
                       is_featured={val.is_featured}
@@ -151,33 +241,50 @@ const HomePageData = ({ token, adminId }) => {
                         favProperty !== undefined && favProperty.property_id
                       }
                       description={null}
-                      handleMessage={() => {
-                        navigate("/messages/" + val.user_id);
+                      handleMessage={() => handleMessage(val._id)}
+                      handleReadMore={() => {
+                        if (user_id !== null) {
+                          navigate("/properties/" + val._id);
+                        }
                       }}
                     />
                   </motion.div>
                 );
               })}
-          </div>
+          </Slider>
         </div>
       )}
       {propertyData.filter((val) => val.buyOrRent === "rent").length !== 0 && (
         <div className="my-4">
-          <h2>Properties for Rent</h2>
-          <div className="container propertyCardsMain  row wd100vw">
+          <h2 className="mb-4 text-center">Properties for Rent</h2>
+          <Slider
+            infinite={true}
+            slidesToShow={
+              (propertyData.filter((val) => val.buyOrRent === "rent").length ===
+                1 &&
+                1) ||
+              (propertyData.filter((val) => val.buyOrRent === "rent").length ===
+                2 &&
+                2) ||
+              (propertyData.filter((val) => val.buyOrRent === "rent").length >
+                2 &&
+                3)
+            }
+            slidesToScroll={1}
+            autoplay={true}
+            autoplaySpeed={3000} // Adjust the autoplay speed as needed
+            arrows={false}
+            className="container propertyCardsMain row propertySliderMain justify-content-start"
+          >
             {propertyData
               .filter((val) => val.buyOrRent === "rent")
+              .slice(0, 10)
               .map((val, i) => {
                 const favProperty = favApiData.find(
                   (item) => item.property_id === val._id
                 );
                 return (
                   <motion.div
-                    onClick={() => {
-                      if (user_id !== null) {
-                        navigate("/properties/" + val._id);
-                      }
-                    }}
                     key={val._id}
                     whileTap={{ scale: 1.1 }}
                     whileHover={{ scale: 1.05 }}
@@ -201,86 +308,37 @@ const HomePageData = ({ token, adminId }) => {
                         favProperty !== undefined && favProperty.property_id
                       }
                       description={null}
-                      handleMessage={() => {
-                        navigate("/messages/" + val.user_id);
+                      handleMessage={() => handleMessage(val._id)}
+                      handleReadMore={() => {
+                        if (user_id !== null) {
+                          navigate("/properties/" + val._id);
+                        }
                       }}
                     />
                   </motion.div>
                 );
               })}
-          </div>
+          </Slider>
         </div>
       )}
-      {propertyData.filter((val) => val.is_featured === true).length !== 0 && (
-        <div className="my-4">
-          <h2 className="mb-4 text-center">Feature Property</h2>
-          <Carousel
-            interval={2000}
-            className="bg-white"
-            activeIndex={activeSlide}
-            onSelect={handleSelect}
-          >
-            {Array.from({ length: totalSlides }).map((_, slideIndex) => {
-              const startIndex = slideIndex * itemsPerPage;
-              const endIndex = startIndex + itemsPerPage;
-              const slidePropertyData = propertyData
-                .filter((val) => val.is_featured === true)
-                .slice(startIndex, endIndex);
-              console.log(slidePropertyData);
-              return (
-                <CarouselItem key={slideIndex}>
-                  <div className="container bg-white  row">
-                    {slidePropertyData.map((val, i) => {
-                      const favProperty = favApiData.find(
-                        (item) => item.property_id === val._id
-                      );
-                      return (
-                        <motion.div
-                          onClick={() => {
-                            if (user_id !== null) {
-                              navigate("/properties/" + val._id);
-                            }
-                          }}
-                          key={val._id}
-                          whileTap={{ scale: 1.1 }}
-                          whileHover={{ scale: 1.05 }}
-                          className="propertyCard bg-white col-md-4 curserPointer"
-                        >
-                          <CardComponent
-                            key={val._id}
-                            is_featured={val.is_featured}
-                            adminId={adminId}
-                            handlePostFeature={() => {}}
-                            file={val.image[0]}
-                            uid={val.user_id}
-                            currentUser={user_id}
-                            title={val.title}
-                            price={val.price}
-                            bedrooms={val.bedrooms}
-                            size={val.size}
-                            location={val.location}
-                            rating={null}
-                            handlePostFav={handlePostFav}
-                            property_id={val._id}
-                            fav_id={
-                              favProperty !== undefined &&
-                              favProperty.property_id
-                            }
-                            description={null}
-                            handleMessage={() => {
-                              navigate("/messages/" + val._id);
-                            }}
-                          />
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                </CarouselItem>
-              );
-            })}
-          </Carousel>
-        </div>
-      )}
+      <Modal
+        centered
+        show={showModalSingleProperty}
+        onHide={() => setShowModalSingleProperty(false)}
+      >
+        <Modal.Header closeButton>
+          {/* <Modal.Title>Contact Info</Modal.Title> */}
+        </Modal.Header>
+
+        <Modal.Body>
+          <h3 className="text-center my-lg-5">
+            <span style={{ fontSize: "25px", color: "grey" }}>
+              Contact Info:{" "}
+            </span>
+            {propertySingleData !== null && +propertySingleData.phone}
+          </h3>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

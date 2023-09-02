@@ -13,6 +13,7 @@ const Agencies = ({ token, adminId }) => {
   const [userData, setUserData] = useState([]);
   const [agencyData, setAgencyData] = useState([]);
   const user_id = localStorage.getItem("user_Id");
+  const [reviewsData, setReviewsData] = useState([]);
   const [agencyModal, setAgencyModal] = useState(false);
   const [inputData, setInputData] = useState({
     name: "",
@@ -62,9 +63,18 @@ const Agencies = ({ token, adminId }) => {
       .then((val) => setUserData(val.data))
       .catch((e) => console.log(e));
   };
+  const getReviewsData = async () => {
+    await axios
+      .get(BASE_URL + "/reviews")
+      .then((val) => setReviewsData(val.data))
+      .catch((e) => console.log(e));
+  };
   useEffect(() => {
     getApiData();
   }, [agencyModal]);
+  useEffect(() => {
+    getReviewsData();
+  }, []);
   return (
     <div className="container my-4">
       <div className="d-flex flex-column justify-content-center align-items-center">
@@ -90,27 +100,42 @@ const Agencies = ({ token, adminId }) => {
         {agencyData
           .filter((val) => val.verified === true)
           .map((val) => {
+            const agencyReview = reviewsData.filter(
+              (item) => item.agency_id === val._id
+            );
+            const ratings = [];
+            agencyReview.map((item) => {
+              ratings.push(item.rating);
+            });
+            const totalRating = ratings.reduce(
+              (sum, rating) => sum + rating,
+              0
+            );
+            const averageRating = totalRating / ratings.length;
+
             const user = userData.find((item) => item._id === val.user_id);
             const stars = [];
             for (let i = 1; i <= 5; i++) {
-              if (i <= val.rating) {
+              if (i <= averageRating) {
                 stars.push("⭐");
               } else {
                 stars.push("☆");
               }
             }
+
+            console.log(stars);
             return (
               <motion.div
-                onClick={() => {
-                  if (user_id !== null) {
-                    navigate("/agencies/" + val._id);
-                  }
-                }}
                 whileTap={{ scale: 1.1 }}
                 whileHover={{ scale: 1.05 }}
                 className=" col-md-6 favCard curserPointer my-4"
               >
                 <CardComponent
+                  handleReadMore={() => {
+                    if (user_id !== null) {
+                      navigate("/agencies/" + val._id);
+                    }
+                  }}
                   contactInfo={val.contactInfo}
                   title={val.username}
                   file={val.image}

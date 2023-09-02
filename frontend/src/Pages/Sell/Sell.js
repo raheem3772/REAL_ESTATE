@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 
 const Properties = ({ token, adminId, agencyMainValidation }) => {
+  const [showModalSingleProperty, setShowModalSingleProperty] = useState(false);
+  const [propertySingleData, setpropertySingleData] = useState({});
   const [reloadData, setReloadData] = useState(false);
   const [propertyModal, setPropertyModal] = useState(false);
   const [favApiData, setFavApiData] = useState([]);
@@ -209,6 +211,15 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
   useEffect(() => {
     getCitySearch();
   }, [cityId]);
+  const handleMessage = async (id) => {
+    await axios
+      .get(BASE_URL + "/properties/" + id)
+      .then((val) => {
+        setShowModalSingleProperty(true);
+        setpropertySingleData(val.data);
+      })
+      .catch((e) => console.log(e));
+  };
   return (
     <div style={{ marginTop: "10rem" }}>
       <div className="propertyDiv d-flex justify-content-center align-items-center flex-column">
@@ -237,17 +248,18 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
               );
               return (
                 <motion.div
-                  onClick={() => {
-                    if (user_id !== null) {
-                      navigate("/properties/" + val._id);
-                    }
-                  }}
                   key={val._id}
                   whileTap={{ scale: 1.1 }}
                   whileHover={{ scale: 1.05 }}
                   className="propertyCard col-md-4 curserPointer"
                 >
                   <CardComponent
+                    handleReadMore={() => {
+                      if (user_id !== null) {
+                        navigate("/properties/" + val._id);
+                      }
+                    }}
+                    contactInfo={val.phone}
                     is_featured={val.is_featured}
                     adminId={adminId}
                     handlePostFeature={handlePostFeature}
@@ -267,9 +279,10 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
                       favProperty !== undefined && favProperty.property_id
                     }
                     description={null}
-                    handleMessage={() => {
-                      navigate("/messages/" + val.user_id);
-                    }}
+                    // handleMessage={() => {
+                    //   navigate("/messages/" + val.user_id);
+                    // }}
+                    handleMessage={() => handleMessage(val._id)}
                   />
                 </motion.div>
               );
@@ -291,17 +304,23 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
                 );
                 return (
                   <motion.div
-                    onClick={() => {
-                      if (user_id !== null) {
-                        navigate("/properties/" + val._id);
-                      }
-                    }}
+                    // onClick={() => {
+                    //   if (user_id !== null) {
+                    //     navigate("/properties/" + val._id);
+                    //   }
+                    // }}
                     key={val._id}
                     whileTap={{ scale: 1.1 }}
                     whileHover={{ scale: 1.05 }}
                     className="propertyCard col-md-4 curserPointer"
                   >
                     <CardComponent
+                      handleReadMore={() => {
+                        if (user_id !== null) {
+                          navigate("/properties/" + val._id);
+                        }
+                      }}
+                      contactInfo={val.phone}
                       is_featured={val.is_featured}
                       adminId={adminId}
                       handlePostFeature={handlePostFeature}
@@ -321,9 +340,10 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
                         favProperty !== undefined && favProperty.property_id
                       }
                       description={null}
-                      handleMessage={() => {
-                        navigate("/messages/" + val.user_id);
-                      }}
+                      // handleMessage={() => {
+                      //   navigate("/messages/" + val.user_id);
+                      // }}
+                      handleMessage={() => handleMessage(val._id)}
                     />
                   </motion.div>
                 );
@@ -343,17 +363,23 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
                 );
                 return (
                   <motion.div
-                    onClick={() => {
-                      if (user_id !== null) {
-                        navigate("/properties/" + val._id);
-                      }
-                    }}
+                    // onClick={() => {
+                    //   if (user_id !== null) {
+                    //     navigate("/properties/" + val._id);
+                    //   }
+                    // }}
                     key={val._id}
                     whileTap={{ scale: 1.1 }}
                     whileHover={{ scale: 1.05 }}
                     className="propertyCard col-md-4 curserPointer"
                   >
                     <CardComponent
+                      handleReadMore={() => {
+                        if (user_id !== null) {
+                          navigate("/properties/" + val._id);
+                        }
+                      }}
+                      contactInfo={val.phone}
                       is_featured={val.is_featured}
                       adminId={adminId}
                       handlePostFeature={handlePostFeature}
@@ -373,9 +399,10 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
                         favProperty !== undefined && favProperty.property_id
                       }
                       description={null}
-                      handleMessage={() => {
-                        navigate("/messages/" + val.user_id);
-                      }}
+                      // handleMessage={() => {
+                      //   navigate("/messages/" + val.user_id);
+                      // }}
+                      handleMessage={() => handleMessage(val._id)}
                     />
                   </motion.div>
                 );
@@ -395,17 +422,23 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
                 );
                 return (
                   <motion.div
-                    onClick={() => {
-                      if (user_id !== null) {
-                        navigate("/properties/" + val._id);
-                      }
-                    }}
+                    // onClick={() => {
+                    //   if (user_id !== null) {
+                    //     navigate("/properties/" + val._id);
+                    //   }
+                    // }}
                     key={val._id}
                     whileTap={{ scale: 1.1 }}
                     whileHover={{ scale: 1.05 }}
                     className="propertyCard col-md-4 curserPointer"
                   >
                     <CardComponent
+                      handleReadMore={() => {
+                        if (user_id !== null) {
+                          navigate("/properties/" + val._id);
+                        }
+                      }}
+                      contactInfo={val.phone}
                       is_featured={val.is_featured}
                       adminId={adminId}
                       handlePostFeature={handlePostFeature}
@@ -425,9 +458,10 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
                         favProperty !== undefined && favProperty.property_id
                       }
                       description={null}
-                      handleMessage={() => {
-                        navigate("/messages/" + val.user_id);
-                      }}
+                      // handleMessage={() => {
+                      //   navigate("/messages/" + val.user_id);
+                      // }}
+                      handleMessage={() => handleMessage(val._id)}
                     />
                   </motion.div>
                 );
@@ -435,7 +469,7 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
           </div>
         </div>
       )}
-      {propertyData.length !== 0 && (
+      {/* {propertyData.length !== 0 && (
         <div className="my-4">
           <h2>All Properties</h2>
           <div className="container propertyCardsMain  row wd100vw">
@@ -445,17 +479,23 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
               );
               return (
                 <motion.div
-                  onClick={() => {
-                    if (user_id !== null) {
-                      navigate("/properties/" + val._id);
-                    }
-                  }}
+                  // onClick={() => {
+                  //   if (user_id !== null) {
+                  //     navigate("/properties/" + val._id);
+                  //   }
+                  // }}
                   key={val._id}
                   whileTap={{ scale: 1.1 }}
                   whileHover={{ scale: 1.05 }}
                   className="propertyCard col-md-4 curserPointer"
                 >
                   <CardComponent
+                    handleReadMore={() => {
+                      if (user_id !== null) {
+                        navigate("/properties/" + val._id);
+                      }
+                    }}
+                    contactInfo={val.phone}
                     is_featured={val.is_featured}
                     adminId={adminId}
                     handlePostFeature={handlePostFeature}
@@ -475,16 +515,35 @@ const Properties = ({ token, adminId, agencyMainValidation }) => {
                       favProperty !== undefined && favProperty.property_id
                     }
                     description={null}
-                    handleMessage={() => {
-                      navigate("/messages/" + val.user_id);
-                    }}
+                    // handleMessage={() => {
+                    //   navigate("/messages/" + val.user_id);
+                    // }}
+                    handleMessage={() => handleMessage(val._id)}
                   />
                 </motion.div>
               );
             })}
           </div>
         </div>
-      )}
+      )} */}
+      <Modal
+        centered
+        show={showModalSingleProperty}
+        onHide={() => setShowModalSingleProperty(false)}
+      >
+        <Modal.Header closeButton>
+          {/* <Modal.Title>Contact Info</Modal.Title> */}
+        </Modal.Header>
+
+        <Modal.Body>
+          <h3 className="text-center my-lg-5">
+            <span style={{ fontSize: "25px", color: "grey" }}>
+              Contact Info:{" "}
+            </span>
+            {propertySingleData !== null && +propertySingleData.phone}
+          </h3>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

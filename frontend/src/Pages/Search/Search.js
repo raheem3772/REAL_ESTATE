@@ -5,7 +5,16 @@ import { BASE_URL } from "../../BaseRealEstate";
 import { motion } from "framer-motion";
 import CardComponent from "../../Components/CardComponent";
 import "./Search.css";
-const Search = ({ token }) => {
+const Search = ({
+  token,
+  setMinPrice,
+  setMaxPrice,
+  minPrice,
+  maxPrice,
+  setDropdownSearch,
+  dropdownSearch,
+  refreshSearchData,
+}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const user_id = localStorage.getItem("user_Id");
@@ -13,7 +22,12 @@ const Search = ({ token }) => {
   const [searchPropertyData, setSearchPropertyData] = useState([]);
   const getCitySearch = async () => {
     await axios
-      .get(BASE_URL + "/properties/city/" + id)
+      .get(BASE_URL + "/properties/city/" + id, {
+        params: {
+          minPrice: minPrice,
+          maxPrice: maxPrice,
+        },
+      })
       .then((val) => {
         setSearchPropertyData(val.data);
       })
@@ -51,44 +65,53 @@ const Search = ({ token }) => {
   };
   useEffect(() => {
     getCitySearch();
-  }, [id]);
+  }, [id, refreshSearchData]);
   return (
     <div className="my-4">
       <h1 className="text-center">
-        Search Results: {searchPropertyData.length}
+        Search Results:{" "}
+        {
+          searchPropertyData.filter((val) =>
+            val.title.toLowerCase().includes(dropdownSearch.toLowerCase())
+          ).length
+        }
       </h1>
       <div className="container propertyCardsMain searchContainerBar row">
-        {searchPropertyData.map((val, i) => {
-          const favProperty = favApiData.find(
-            (item) => item.property_id === val._id
-          );
-          return (
-            <motion.div
-              whileTap={{ scale: 1.1 }}
-              whileHover={{ scale: 1.05 }}
-              className="propertyCard col-md-4 curserPointer"
-            >
-              <CardComponent
-                file={val.image[0]}
-                uid={val.user_id}
-                currentUser={user_id}
-                title={val.title}
-                price={val.price}
-                bedrooms={val.bedrooms}
-                size={val.size}
-                location={val.location}
-                rating={null}
-                handlePostFav={handlePostFav}
-                property_id={val._id}
-                fav_id={favProperty !== undefined && favProperty.property_id}
-                description={null}
-                handleMessage={() => {
-                  navigate("/messages/" + val._id);
-                }}
-              />
-            </motion.div>
-          );
-        })}
+        {searchPropertyData
+          .filter((val) =>
+            val.title.toLowerCase().includes(dropdownSearch.toLowerCase())
+          )
+          .map((val, i) => {
+            const favProperty = favApiData.find(
+              (item) => item.property_id === val._id
+            );
+            return (
+              <motion.div
+                whileTap={{ scale: 1.1 }}
+                whileHover={{ scale: 1.05 }}
+                className="propertyCard col-md-4 curserPointer"
+              >
+                <CardComponent
+                  file={val.image[0]}
+                  uid={val.user_id}
+                  currentUser={user_id}
+                  title={val.title}
+                  price={val.price}
+                  bedrooms={val.bedrooms}
+                  size={val.size}
+                  location={val.location}
+                  rating={null}
+                  handlePostFav={handlePostFav}
+                  property_id={val._id}
+                  fav_id={favProperty !== undefined && favProperty.property_id}
+                  description={null}
+                  handleMessage={() => {
+                    navigate("/messages/" + val._id);
+                  }}
+                />
+              </motion.div>
+            );
+          })}
       </div>
     </div>
   );

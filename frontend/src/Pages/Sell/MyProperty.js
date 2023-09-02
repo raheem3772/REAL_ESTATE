@@ -294,17 +294,17 @@ const MyProperty = ({ token, adminId, agencyMainValidation }) => {
             );
             return (
               <motion.div
-                onClick={() => {
-                  if (user_id !== null) {
-                    navigate("/properties/" + val._id);
-                  }
-                }}
                 key={val._id}
                 whileTap={{ scale: 1.1 }}
                 whileHover={{ scale: 1.05 }}
                 className="propertyCard col-md-4 curserPointer"
               >
                 <CardComponent
+                  handleReadMore={() => {
+                    if (user_id !== null) {
+                      navigate("/properties/" + val._id);
+                    }
+                  }}
                   handleDeleteProperty={() => handleDeleteProperty(val._id)}
                   handleEdit={() => handleEdit(val)}
                   editProperty={"abcd"}
@@ -333,6 +333,7 @@ const MyProperty = ({ token, adminId, agencyMainValidation }) => {
             );
           })}
       </div>
+
       <Modal
         size="lg"
         show={propertyModal}
@@ -489,7 +490,7 @@ const MyProperty = ({ token, adminId, agencyMainValidation }) => {
                 type="number"
                 className="form-control"
                 name="price"
-                placeholder="$"
+                placeholder="Rs"
                 value={inputData.price}
                 onChange={handleChange}
               />

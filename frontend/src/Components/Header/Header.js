@@ -5,14 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddIcon from "@mui/icons-material/Add";
-const Header = ({ token, setAdminId, agencyMainValidation }) => {
+const Header = ({ token, setAdminId, agencyMainValidation, adminId }) => {
   const navigate = useNavigate();
   const userId = localStorage.getItem("user_Id");
   return (
     <div className="headerMainContainer container">
       <div className="">
         <h2 onClick={() => navigate("/home")} className="headerHeadingDiv">
-          REAL HOME ESTATE
+          {adminId !== null && adminId.includes(userId)
+            ? "Admin Panel"
+            : "REAL HOME ESTATE"}
         </h2>
       </div>
       <div className="navLinksDiv">
@@ -25,9 +27,9 @@ const Header = ({ token, setAdminId, agencyMainValidation }) => {
             <NavLink className="navlinks" to="/properties">
               Properties
             </NavLink>
-            <NavLink className="navlinks" to="/messages">
+            {/* <NavLink className="navlinks" to="/messages">
               Messages
-            </NavLink>
+            </NavLink> */}
             <NavLink className="navlinks" to="/reviews">
               Reviews
             </NavLink>
@@ -37,12 +39,16 @@ const Header = ({ token, setAdminId, agencyMainValidation }) => {
           </>
         ) : (
           <>
-            <NavLink className="navlinks" to="/buy">
-              Buy
-            </NavLink>
-            <NavLink className="navlinks" to="/rent">
-              Rent
-            </NavLink>
+            {(adminId !== null && adminId.includes(userId)) || (
+              <>
+                <NavLink className="navlinks" to="/buy">
+                  Buy
+                </NavLink>
+                <NavLink className="navlinks" to="/rent">
+                  Rent
+                </NavLink>
+              </>
+            )}
             <NavLink className="navlinks" to="/properties">
               Properties
             </NavLink>

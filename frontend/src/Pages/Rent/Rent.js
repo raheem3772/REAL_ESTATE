@@ -4,12 +4,15 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import CardComponent from "../../Components/CardComponent";
 import { useNavigate } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 
 const Rent = () => {
   const navigate = useNavigate();
   const user_id = localStorage.getItem("user_Id");
   const [favApiData, setFavApiData] = useState([]);
   const [rentProperty, setRentProperty] = useState([]);
+  const [showModalSingleProperty, setShowModalSingleProperty] = useState(false);
+  const [propertySingleData, setpropertySingleData] = useState({});
   const handlePostFav = async (property_id) => {
     const user_id = localStorage.getItem("user_Id");
     await axios
@@ -38,6 +41,15 @@ const Rent = () => {
     await axios
       .get(BASE_URL + "/properties/")
       .then((val) => setRentProperty(val.data))
+      .catch((e) => console.log(e));
+  };
+  const handleMessage = async (id) => {
+    await axios
+      .get(BASE_URL + "/properties/" + id)
+      .then((val) => {
+        setShowModalSingleProperty(true);
+        setpropertySingleData(val.data);
+      })
       .catch((e) => console.log(e));
   };
   useEffect(() => {
@@ -72,14 +84,35 @@ const Rent = () => {
                   property_id={val._id}
                   fav_id={favProperty !== undefined && favProperty.property_id}
                   description={null}
-                  handleMessage={() => {
-                    navigate("/messages/" + val._id);
+                  handleMessage={() => handleMessage(val._id)}
+                  handleReadMore={() => {
+                    if (user_id !== null) {
+                      navigate("/properties/" + val._id);
+                    }
                   }}
                 />
               </motion.div>
             );
           })}
       </div>
+      <Modal
+        centered
+        show={showModalSingleProperty}
+        onHide={() => setShowModalSingleProperty(false)}
+      >
+        <Modal.Header closeButton>
+          {/* <Modal.Title>Contact Info</Modal.Title> */}
+        </Modal.Header>
+
+        <Modal.Body>
+          <h3 className="text-center my-lg-5">
+            <span style={{ fontSize: "25px", color: "grey" }}>
+              Contact Info:{" "}
+            </span>
+            {propertySingleData !== null && +propertySingleData.phone}
+          </h3>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

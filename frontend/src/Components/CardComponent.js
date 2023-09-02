@@ -17,6 +17,8 @@ import { BASE_URL } from "../BaseRealEstate";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CallIcon from "@mui/icons-material/Call";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+
 const CardComponent = ({
   title,
   price,
@@ -45,6 +47,7 @@ const CardComponent = ({
   handleDeleteProperty,
   contactInfo,
   calIconNav,
+  handleReadMore,
 }) => {
   const [favPropertyBool, setFavPropertyBool] = useState(false);
   useEffect(() => {
@@ -57,21 +60,27 @@ const CardComponent = ({
   return (
     <MDBCard
       style={{
-        height: property_id === null ? "450px" : "460px",
+        height: property_id === null ? "450px" : "560px",
+        width: "20vw",
       }}
       className="bg-white"
     >
       <MDBRipple
         style={{
           height: "300px",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
         }}
-        rippleColor="light"
+        // rippleColor="light"
         rippleTag="div"
         className="bg-image bg-white hover-overlay"
       >
         <MDBCardImage
+          style={{
+            height: "250px",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundImage: `url(${BASE_URL + "/" + file})`,
+            backgroundColor: "green",
+          }}
           src={BASE_URL + "/" + file}
           fluid
           alt="..."
@@ -91,7 +100,7 @@ const CardComponent = ({
         <MDBCardTitle className="text-black">{title}</MDBCardTitle>
         <MDBCardText>
           <pre className="text-black">
-            {price !== null && `Price: ${price}$`}
+            {price !== null && `Price: ${price} Rs`}
             {price && <br />}
             {bedrooms !== null && `Bedrooms: ${bedrooms}-Bedrooms`}
             {bedrooms && <br />}
@@ -101,23 +110,17 @@ const CardComponent = ({
             {location && <br />}
             {rating !== null && `Ratings: ${rating.join("")}`}
             {rating && <br />}
-            {description !== null && `Location: ${description}`}
+            {description !== null && `Description: ${description}`}
             {description && <br />}
-            {currentUser !== null && (
-              <>{contactInfo !== null && `Contact Info: ${contactInfo}`}</>
-            )}
-            {contactInfo && <br />}
-            {/* <span
-                        style={{ fontSize: "1.2rem" }}
-                        className="text-warning"
-                      >
-                        {" "}
-                        {val.rating}
-                        ★★★
-                      </span> */}
+            {/* <>
+              {currentUser !== null && (
+                <>{contactInfo !== null && `Contact Info: ${contactInfo}`}</>
+              )}
+              {contactInfo && <br />}
+            </> */}
           </pre>
         </MDBCardText>
-        <div className="d-flex bg-white">
+        <div style={{ zIndex: 1 }} className="d-flex bg-white">
           {currentUser === null && (
             <IconButton onClick={() => calIconNav()} title="Delete">
               <CallIcon sx={{ color: "green" }} />
@@ -164,9 +167,9 @@ const CardComponent = ({
               <IconButton
                 onClick={handleMessage}
                 sx={{ margin: "0 2rem 0 0 " }}
-                title="Message"
+                title="Contact"
               >
-                <MailOutlineIcon sx={{ color: "green" }} />
+                <LocalPhoneIcon sx={{ color: "green" }} />
               </IconButton>
             )}
           {currentUser === uid && editProperty !== undefined && (
@@ -189,13 +192,13 @@ const CardComponent = ({
             </>
           )}
         </div>
+        <Button onClick={handleReadMore}>Read More...</Button>
         {adminId !== null &&
           is_featured === false &&
           adminId.includes(currentUser) &&
           handlePostFeature !== undefined && (
             <Button
               onClick={() => {
-                console.log(property_id);
                 handlePostFeature(property_id);
               }}
             >
@@ -208,11 +211,10 @@ const CardComponent = ({
           handleRemoveFeature !== undefined && (
             <Button
               onClick={() => {
-                console.log(property_id);
                 handleRemoveFeature(property_id);
               }}
             >
-              Remove to features
+              Remove from features
             </Button>
           )}
       </MDBCardBody>

@@ -57,3 +57,7 @@ code {
   background-color: #094a0c;
   padding: 8px 25px 8px 25px;
 }
+.imgSingleProperty {
+  height: 60vh;
+  width: 100%;
+}
