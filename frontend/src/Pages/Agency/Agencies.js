@@ -1,89 +1,86 @@
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Modal } from "react-bootstrap";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import CardComponent from "../../Components/CardComponent";
-import AddIcon from "@mui/icons-material/Add";
-import { BASE_URL } from "../../BaseRealEstate";
+import React, {useEffect, useState} from 'react'
+import {motion} from 'framer-motion'
+import {Modal} from 'react-bootstrap'
+import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
+import CardComponent from '../../Components/CardComponent'
+import AddIcon from '@mui/icons-material/Add'
+import {BASE_URL} from '../../BaseRealEstate'
 
-const Agencies = ({ token, adminId }) => {
-  const navigate = useNavigate();
-  const [image, setimage] = useState("");
-  const [userData, setUserData] = useState([]);
-  const [agencyData, setAgencyData] = useState([]);
-  const user_id = localStorage.getItem("user_Id");
-  const [reviewsData, setReviewsData] = useState([]);
-  const [agencyModal, setAgencyModal] = useState(false);
+const Agencies = ({token, adminId}) => {
+  const navigate = useNavigate()
+  const [image, setimage] = useState('')
+  const [userData, setUserData] = useState([])
+  const [agencyData, setAgencyData] = useState([])
+  const user_id = localStorage.getItem('user_Id')
+  const [reviewsData, setReviewsData] = useState([])
+  const [agencyModal, setAgencyModal] = useState(false)
   const [inputData, setInputData] = useState({
-    name: "",
+    name: '',
     rating: 0,
-    description: "",
-  });
+    description: '',
+  })
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInputData({ ...inputData, [name]: value });
-  };
+    const {name, value} = e.target
+    setInputData({...inputData, [name]: value})
+  }
   const handlePostAgency = async () => {
-    const { name, rating, description } = inputData;
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("rating", rating);
-    formData.append("description", description);
-    formData.append("user_id", user_id);
-    formData.append("image", image);
+    const {name, rating, description} = inputData
+    const formData = new FormData()
+    formData.append('name', name)
+    formData.append('rating', rating)
+    formData.append('description', description)
+    formData.append('user_id', user_id)
+    formData.append('image', image)
 
     await axios
-      .post(BASE_URL + "/agencies/", formData, {
+      .post(BASE_URL + '/agencies/', formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       })
       .then((val) => {
-        console.log(val);
-        setAgencyModal(false);
+        console.log(val)
+        setAgencyModal(false)
         setInputData({
-          title: "",
-          location: "",
-          price: "",
-          size: "",
-          bedrooms: "",
-          buyOrRent: "",
-        });
+          title: '',
+          location: '',
+          price: '',
+          size: '',
+          bedrooms: '',
+          buyOrRent: '',
+        })
       })
-      .catch((e) => console.warn(e));
-  };
+      .catch((e) => console.warn(e))
+  }
   const getApiData = async () => {
     await axios
-      .get(BASE_URL + "/agencymain/")
+      .get(BASE_URL + '/agencymain/')
       .then((val) => setAgencyData(val.data))
-      .catch((e) => console.log(e));
+      .catch((e) => console.log(e))
     await axios
-      .get(BASE_URL + "/users/")
+      .get(BASE_URL + '/users/')
       .then((val) => setUserData(val.data))
-      .catch((e) => console.log(e));
-  };
+      .catch((e) => console.log(e))
+  }
   const getReviewsData = async () => {
     await axios
-      .get(BASE_URL + "/reviews")
+      .get(BASE_URL + '/reviews')
       .then((val) => setReviewsData(val.data))
-      .catch((e) => console.log(e));
-  };
+      .catch((e) => console.log(e))
+  }
   useEffect(() => {
-    getApiData();
-  }, [agencyModal]);
+    getApiData()
+  }, [agencyModal])
   useEffect(() => {
-    getReviewsData();
-  }, []);
+    getReviewsData()
+  }, [])
   return (
-    <div className="container my-4">
-      <div className="d-flex flex-column justify-content-center align-items-center">
+    <div className='container my-4'>
+      <div className='d-flex flex-column justify-content-center align-items-center'>
         <h2>Agency</h2>
         {adminId !== null && adminId.includes(user_id) && (
-          <button
-            className="btnHover mt-3"
-            onClick={() => navigate("/unapprovedagencies")}
-          >
+          <button className='btnHover mt-3' onClick={() => navigate('/unapprovedagencies')}>
             Unapproved Agencies
           </button>
         )}
@@ -96,44 +93,39 @@ const Agencies = ({ token, adminId }) => {
           </button>
         )} */}
       </div>
-      <div className="container favCardsMain row">
+      <div className='container favCardsMain row'>
         {agencyData
           .filter((val) => val.verified === true)
           .map((val) => {
-            const agencyReview = reviewsData.filter(
-              (item) => item.agency_id === val._id
-            );
-            const ratings = [];
+            const agencyReview = reviewsData.filter((item) => item.agency_id === val._id)
+            const ratings = []
             agencyReview.map((item) => {
-              ratings.push(item.rating);
-            });
-            const totalRating = ratings.reduce(
-              (sum, rating) => sum + rating,
-              0
-            );
-            const averageRating = totalRating / ratings.length;
+              ratings.push(item.rating)
+            })
+            const totalRating = ratings.reduce((sum, rating) => sum + rating, 0)
+            const averageRating = totalRating / ratings.length
 
-            const user = userData.find((item) => item._id === val.user_id);
-            const stars = [];
+            const user = userData.find((item) => item._id === val.user_id)
+            const stars = []
             for (let i = 1; i <= 5; i++) {
               if (i <= averageRating) {
-                stars.push("⭐");
+                stars.push('⭐')
               } else {
-                stars.push("☆");
+                stars.push('☆')
               }
             }
 
-            console.log(stars);
+            console.log(stars)
             return (
               <motion.div
-                whileTap={{ scale: 1.1 }}
-                whileHover={{ scale: 1.05 }}
-                className=" col-md-6 favCard curserPointer my-4"
+                whileTap={{scale: 1.1}}
+                whileHover={{scale: 1.05}}
+                className=' col-md-6 favCard curserPointer my-4'
               >
                 <CardComponent
                   handleReadMore={() => {
                     if (user_id !== null) {
-                      navigate("/agencies/" + val._id);
+                      navigate('/agencies/' + val._id)
                     }
                   }}
                   contactInfo={val.contactInfo}
@@ -141,9 +133,7 @@ const Agencies = ({ token, adminId }) => {
                   file={val.image}
                   handlePostFav={() => {}}
                   property_id={null}
-                  userName={
-                    user === undefined ? "Loading..." : user["username"]
-                  }
+                  userName={user === undefined ? 'Loading...' : user['username']}
                   description={val.description}
                   size={null}
                   bedrooms={null}
@@ -151,97 +141,97 @@ const Agencies = ({ token, adminId }) => {
                   location={null}
                   rating={stars}
                   currentUser={user_id}
-                  calIconNav={() => navigate("/login")}
+                  calIconNav={() => navigate('/login')}
                 />
               </motion.div>
-            );
+            )
           })}
       </div>
       <Modal
         show={agencyModal}
         onHide={() => {
-          setAgencyModal(false);
+          setAgencyModal(false)
           setInputData({
-            name: "",
+            name: '',
             rating: 0,
-            description: "",
-          });
+            description: '',
+          })
         }}
       >
-        <Modal.Header className="bg-light" closeButton>
+        <Modal.Header className='bg-light' closeButton>
           <Modal.Title>Add Agency</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="my-2">
+          <div className='my-2'>
             <strong>Name</strong>
             <input
-              type="text"
-              className="form-control"
-              name="name"
-              placeholder="Type here"
+              type='text'
+              className='form-control'
+              name='name'
+              placeholder='Type here'
               value={inputData.name}
               onChange={handleChange}
             />
           </div>
-          <div className="my-2">
+          <div className='my-2'>
             <strong>Ratings</strong>
             <input
-              min="0"
-              max="5"
-              type="number"
-              className="form-control"
-              name="rating"
-              placeholder="1-5"
+              min='0'
+              max='5'
+              type='number'
+              className='form-control'
+              name='rating'
+              placeholder='1-5'
               value={inputData.rating}
               onChange={handleChange}
             />
           </div>
-          <div className="my-2">
+          <div className='my-2'>
             <strong>Description</strong>
             <textarea
-              type="number"
-              className="form-control"
-              name="description"
-              placeholder="Type here"
+              type='number'
+              className='form-control'
+              name='description'
+              placeholder='Type here'
               value={inputData.description}
               onChange={handleChange}
             />
           </div>
-          <div className="my-2">
+          <div className='my-2'>
             <strong>Attachment</strong>
             <input
-              type="file"
-              name="file"
-              accept=".jpeg, .png, .jpg"
-              className="form-control"
+              type='file'
+              name='file'
+              accept='.jpeg, .png, .jpg'
+              className='form-control'
               onChange={(e) => setimage(e.target.files[0])}
             />
           </div>
         </Modal.Body>
-        <Modal.Footer className="bg-light">
+        <Modal.Footer className='bg-light'>
           <button
-            className="btnHover bg-dark "
+            className='btnHover bg-dark '
             onClick={() => {
-              setAgencyModal(false);
+              setAgencyModal(false)
               setInputData({
-                name: "",
+                name: '',
                 rating: 0,
-                description: "",
-              });
+                description: '',
+              })
             }}
           >
             Cancel
           </button>
-          <button className="btnHover" onClick={handlePostAgency}>
+          <button className='btnHover' onClick={handlePostAgency}>
             Save
           </button>
         </Modal.Footer>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default Agencies;
+export default Agencies
 // <div>
 //   <div className="contentMain">
 //     <input
