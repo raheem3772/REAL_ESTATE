@@ -31,6 +31,8 @@ const agencyControllerMain = {
     }
   },
   signupAgency: async (req, res) => {
+    // console.log(req.files.image[0].path);
+    console.log(req.files);
     try {
       const {
         username,
@@ -62,7 +64,8 @@ const agencyControllerMain = {
       }
       // Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
-      const image = req.file.path;
+      const image = req.files.image[0].path; // Get the image file path
+      const docs = req.files.docs[0].path; // Get the PDF file path
 
       const newAgency = new AgencyMain({
         username,
@@ -71,6 +74,7 @@ const agencyControllerMain = {
         contactInfo,
         description,
         image,
+        docs,
       });
 
       const savedAgency = await newAgency.save();

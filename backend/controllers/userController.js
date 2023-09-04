@@ -26,6 +26,7 @@ const UserController = {
 
   signupUser: async (req, res) => {
     try {
+      console.log(req.files);
       const { username, email, password, confirmpassword } = req.body;
       if (!email || !password || !username) {
         return res.status(400).json({ message: "Please fill all fields" });
@@ -49,6 +50,7 @@ const UserController = {
       }
       // Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
+      const image = req.file.path;
 
       // Create a new user
       const newUser = new User({
@@ -56,6 +58,7 @@ const UserController = {
         email,
         password: hashedPassword,
         is_registered: true,
+        image,
       });
 
       const savedUser = await newUser.save();

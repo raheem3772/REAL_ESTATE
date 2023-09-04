@@ -12,7 +12,7 @@ const agencyMainSchema = new mongoose.Schema(
     properties: [{ type: mongoose.Schema.Types.ObjectId, ref: "Property" }],
     isApproved: { type: Boolean, default: false }, // New field for approval status
     image: { type: String },
-    docs: [{ type: String }],
+    docs: { type: String },
   },
   {
     timestamps: true,

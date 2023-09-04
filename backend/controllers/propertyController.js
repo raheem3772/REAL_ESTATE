@@ -12,13 +12,31 @@ const PropertyController = {
 
   getPropertyByCity: async (req, res) => {
     const { cityId } = req.params;
+    const { minPrice, maxPrice } = req.query; // Extract minPrice and maxPrice from query parameters
+
+    // Create a filter object to be used in the Property.find() query
+    const filter = { cityId: cityId };
+    if (minPrice && maxPrice) {
+      if (minPrice !== undefined && !isNaN(minPrice)) {
+        filter.price = { $gte: parseFloat(minPrice) };
+      }
+      if (maxPrice !== undefined && !isNaN(maxPrice)) {
+        if (filter.price) {
+          filter.price.$lte = parseFloat(maxPrice);
+        } else {
+          filter.price = { $lte: parseFloat(maxPrice) };
+        }
+      }
+    }
+
     try {
-      const properties = await Property.find({ cityId: cityId });
+      const properties = await Property.find(filter);
       res.json(properties);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   },
+
   getPropertyrent: async (req, res) => {
     try {
       const properties = await Property.find({ buyOrRent: "rent" });
