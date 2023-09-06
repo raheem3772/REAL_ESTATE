@@ -1,0 +1,107 @@
+.msgMain {
+  /* min-height: 90vh; */
+  width: 100vw;
+  display: flex;
+}
+.userList {
+  padding: 1rem;
+  width: 25vw;
+  border-right: 1px solid rgb(202, 202, 202);
+}
+.userChat {
+  width: 75vw;
+  height: 90vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+.userChatCard {
+  box-shadow: 1px 1px 3px grey;
+  margin: 5px 0 0;
+  cursor: pointer;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 22vw;
+  height: 10vh;
+  background-color: white;
+  border-radius: 0.5rem;
+}
+.avatar {
+  height: 50px;
+  width: 50px;
+  border-radius: 5rem;
+  border: 2px solid white;
+  background-color: rgb(224, 224, 224);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: #3b803e;
+  background: url("../../assets/avatar.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.inputButton {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 75vw;
+  height: 10vh;
+  box-shadow: 1px 3px 10px grey;
+}
+.messageField {
+  box-shadow: 1px 1px 10px rgb(212, 212, 212);
+  width: 60vw;
+  height: 6vh;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  padding: 0 1rem;
+}
+.btnSend {
+  border: none;
+  border-radius: 20px;
+  padding: 8px 8px 8px 12px;
+  color: white;
+  background-color: #3b803e;
+  font-weight: 600;
+}
+
+.btnSend:hover {
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px 5px 10px;
+  color: rgb(10, 2, 2);
+  background-color: white;
+  transition: all 0.5s;
+}
+.chatDiv {
+  margin-bottom: 1rem;
+}
+.chatMessages {
+  border-radius: 20px;
+  background-color: rgb(215, 215, 215);
+  padding: 5px 1rem;
+  color: black;
+  margin: 4px 2rem;
+}
+.chatMessagee {
+  border-radius: 20px;
+  background-color: green;
+  padding: 5px 1rem;
+  color: white;
+  margin: 4px 2rem;
+}
+.singleChatMessages {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.singleChatMessagee {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}

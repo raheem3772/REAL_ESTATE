@@ -1,0 +1,25 @@
+.favCardsMain {
+  display: flex;
+  justify-content: center;
+}
+
+.favCard {
+  width: 20vw;
+  margin: 1rem 2rem;
+}
+@media (max-width: 991px) {
+  .favCard {
+    width: 30vw;
+  }
+}
+@media (max-width: 646px) {
+  .favCard {
+    width: 60vw;
+  }
+}
+
+@media (max-width: 400px) {
+  .favCard {
+    width: 90vw;
+  }
+}

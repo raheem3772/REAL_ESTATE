@@ -1,0 +1,53 @@
+.mainDivProfile {
+  min-height: 80vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+.profileContents {
+  box-shadow: 1px 2px 6px rgba(128, 128, 128, 0.419);
+  min-height: 70vh;
+  width: 70vw;
+  border-radius: 10px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+}
+.inputProfileDiv {
+  display: flex;
+  flex-direction: column;
+  /* border-bottom: 1px solid rgba(128, 128, 128, 0.307); */
+  margin: 6px 0;
+}
+.inputProfile {
+  background-color: transparent;
+  border: 1px solid rgba(128, 128, 128, 0.104);
+  width: 30vw;
+  border-radius: 10px;
+  padding: 6px;
+}
+.rowDivProfile {
+  display: flex;
+  justify-content: space-between;
+  width: 65vw;
+}
+.avatarProfile {
+  width: 200px;
+  height: 200px;
+  background-color: grey;
+  border-radius: 50%; /* Using 50% to create a circular shape */
+  background-repeat: no-repeat;
+  background-size: cover; /* Ensures the image covers the entire container */
+  display: flex; /* Added flex to center the image horizontally and vertically */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.imgProfile {
+  width: 100%; /* Set the image width to 100% of its parent container */
+  height: 100%; /* Set the image height to 100% of its parent container */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  border-radius: 50%; /* Match the parent container's border-radius for a circular image */
+}

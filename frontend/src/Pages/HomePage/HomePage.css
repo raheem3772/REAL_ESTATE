@@ -1,0 +1,218 @@
+.homePageMainContainer {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.backgroundFilter {
+  margin: 0 2rem 0 2rem;
+  border-radius: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80vh;
+  background: url("../../assets/bgHome.png");
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Background color with desired opacity */
+  filter: brightness(40%); /* Adjust the filter as needed */
+  z-index: -1;
+}
+
+.contentContainer {
+  height: 60vh;
+  position: relative;
+  text-align: center;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.h1TagPicCard {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+}
+
+.text-success {
+  color: green;
+}
+
+.pTagPicCard {
+  margin: 2rem;
+  font-size: 1rem;
+  color: white;
+}
+.searchBarContainer {
+  background-color: white;
+  height: 25vh;
+  width: 80vw;
+  border-radius: 0 20px 20px 20px;
+  box-shadow: 2px 4px 7px grey;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+}
+.seacrhBarContent {
+  margin: 0 2rem 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.searchBarMain {
+  width: 1vw;
+  height: 8vh;
+  border: none;
+  outline: none;
+  background-color: rgba(220, 220, 220, 0.243);
+  margin: 0 2px 0 2px;
+  padding-left: 0.5rem;
+  border-radius: 5px;
+}
+.selectTagMain {
+  width: 19vw;
+  height: 8vh;
+  border: none;
+  outline: none;
+  background-color: grey;
+  background-color: rgba(220, 220, 220, 0.243);
+  margin: 0 2px 0 2px;
+  padding-left: 0.5rem;
+  border-radius: 5px;
+}
+.btnSearchMain {
+  width: 19vw;
+  border-radius: 5px;
+  margin: 1rem 0 0 2rem;
+}
+.mainTotalSearchbar {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.typeSearchBar {
+  border-radius: 20px 20px 0 0;
+  padding: 1rem 2rem;
+  background-color: white;
+  display: flex;
+}
+
+.help3Cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+.helpCard {
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2rem;
+}
+.iconsHelpCard {
+  color: #3b803e;
+}
+.propertyCardsMain {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.propertyCard {
+  width: 20vw;
+  margin: 1rem 2rem;
+}
+.propertyDiv {
+  margin-top: 1rem;
+}
+.selectedButton {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 1rem;
+  transition: all 0.5s;
+}
+.selectedButton:hover {
+  background-color: rgb(0, 98, 0);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 1rem;
+  transition: all 0.5s;
+}
+
+.unselectedButton {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 1rem;
+  border-radius: 1rem;
+  transition: all 0.5s;
+}
+
+.unselectedButton:hover {
+  background-color: rgb(224, 224, 224);
+  color: black;
+  border: none;
+  padding: 1rem;
+  border-radius: 1rem;
+  transition: all 0.5s;
+}
+.propertySliderMain {
+  flex-wrap: nowrap;
+  /* overflow-x: scroll; */
+}
+@media (max-width: 1000px) {
+  .searchBarContainer {
+    width: 85vw;
+  }
+}
+@media (max-width: 767px) {
+  .h1TagPicCard {
+    font-size: 2rem;
+    margin: 0 1rem;
+  }
+  .seacrhBarContent {
+    flex-direction: column;
+  }
+  .searchBarContainer {
+    height: 60vh;
+  }
+  .selectTagMain {
+    width: 60vw;
+  }
+  .help3Cards {
+    flex-direction: column;
+  }
+  .helpCard {
+    width: 80vw;
+    margin: 2rem 0;
+  }
+}
+@media (max-width: 450px) {
+  .btnSearchMain {
+    width: 30vw;
+  }
+}
+
+@media (max-width: 400px) {
+  .h1TagPicCard {
+    font-size: 1rem;
+  }
+  .homePageMainContainer {
+    margin-top: 2rem;
+  }
+}

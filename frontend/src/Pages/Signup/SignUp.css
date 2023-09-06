@@ -1,0 +1,86 @@
+.signUpMainContainer {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+}
+.backgroundFilterSignUp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background: url("../../assets/bgHome.png");
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Background color with desired opacity */
+  filter: brightness(60%); /* Adjust the filter as needed */
+  z-index: -1;
+}
+.formContainerMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.formCont {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 3rem 2rem;
+  width: 40vw;
+  /* height: 70vh; */
+  box-shadow: 2px 5px 7px grey;
+}
+.buttonAuthDiv {
+  display: flex;
+  justify-content: center;
+  /* border: 1px solid grey; */
+  background-color: rgb(222, 222, 222);
+  height: 6vh;
+  border-radius: 0.6rem;
+  align-items: center;
+}
+.buttonAuth {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0.6rem;
+  /* margin: 0 1rem; */
+  text-decoration: none;
+}
+.mainbtnDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #3b803e;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.active div {
+  background-color: #3b803e;
+  border-radius: 0.6rem;
+  color: white;
+}
+.textFieldsDiv {
+  margin-top: 3rem;
+  width: auto;
+}
+@media (max-width: 850px) {
+  .formCont {
+    width: 70vw;
+  }
+  .textFieldsDiv {
+    width: auto;
+  }
+}
+@media (max-width: 450px) {
+  .formCont {
+    width: 95vw;
+  }
+  .textFieldsDiv {
+    width: auto;
+  }
+}

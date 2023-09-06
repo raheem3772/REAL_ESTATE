@@ -1,0 +1,59 @@
+.imgDivAbout {
+  background: url("../../assets/Dash3.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 40vh;
+  border-radius: 12px;
+  box-shadow: 2px 4px 8px grey;
+}
+.backgroundFilterAbout {
+  margin: 0 2rem 0 2rem;
+  position: absolute;
+  border-radius: 20px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80vh;
+  background: url("../../assets/about.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.5);
+  filter: brightness(40%);
+  z-index: -1;
+}
+
+.heightContectMainABout {
+  height: 80vh;
+}
+@media (max-width: 1000px) {
+  .heightContectMainABout {
+    margin-bottom: 2rem;
+  }
+  .h1TagPicCard {
+    font-size: 2rem;
+  }
+  .pTagPicCard {
+    font-size: 14px;
+    width: 70vw;
+  }
+}
+
+@media (max-width: 500px) {
+  .pTagPicCard {
+    font-size: 12px;
+    width: 80vw;
+  }
+}
+
+@media (max-width: 343px) {
+  .h1TagPicCard {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .h1TagPicCard {
+    font-size: 1.2rem;
+  }
+}

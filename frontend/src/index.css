@@ -1,0 +1,115 @@
+:root {
+  --random: #8ea7ac5e;
+  --random1: #01353ead;
+  --random2: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+.btnHover {
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px 8px 20px;
+  color: white;
+  background-color: #3b803e;
+  font-weight: 600;
+}
+.btnHover1 {
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px 5px 10px;
+  color: white;
+  background-color: var(--random1);
+  font-weight: 600;
+}
+.btnHover:hover {
+  color: rgb(10, 2, 2);
+  background-color: rgb(233, 232, 232);
+  transition: all 0.5s;
+}
+.btnHover1:hover {
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px 5px 10px;
+  color: rgb(10, 2, 2);
+  background-color: white;
+  transition: all 0.5s;
+}
+.wd100vw {
+  width: 100vw;
+}
+.textClrs {
+  color: #3b803e;
+}
+
+.activeBtn {
+  background-color: #094a0c;
+  padding: 8px 25px 8px 25px;
+}
+.imgSingleProperty {
+  height: 60vh;
+  width: 100%;
+}
+.cardCompMain {
+  width: 20vw;
+}
+
+@media (max-width: 1200px) {
+  .cardCompMain {
+    width: 25vw;
+  }
+}
+
+@media (max-width: 1000px) {
+  .cardCompMain {
+    width: 30vw;
+  }
+}
+
+@media (max-width: 767px) {
+  .cardCompMain {
+    width: 40vw;
+  }
+  .propertyCardsMain {
+    /* display: flex; */
+    flex-direction: column;
+  }
+  .cardCompMain {
+    width: 50vw;
+  }
+}
+
+@media (max-width: 500px) {
+  .cardCompMain {
+    width: 70vw;
+  }
+}
+@media (max-width: 400px) {
+  .cardCompMain {
+    width: 80vw;
+  }
+}
+@media screen and (max-width: 768px) {
+  .container {
+    width: 100vw;
+  }
+}
+
+/* For small screens */
+@media screen and (max-width: 480px) {
+  .container {
+    width: 100vw;
+    /* Adjust the styles for small screens */
+  }
+}
