@@ -119,3 +119,40 @@ h6 {
 .descriptionBlogSingle div {
   width: 60vw;
 }
+@media (max-width: 1500px) {
+  .rowDivMainBlog {
+    height: 45vh;
+  }
+  .imgMainSingleBlog {
+    height: 45vh;
+  }
+}
+@media (max-width: 1400px) {
+  .rowDivMainBlog {
+    height: 50vh;
+  }
+  .imgMainSingleBlog {
+    height: 50vh;
+  }
+}
+
+@media (max-width: 991px) {
+  .titleBlog {
+    font-size: 1rem;
+  }
+
+  .imgMainSingleBlog {
+    width: 23vw;
+  }
+}
+
+@media (max-width: 767px) {
+  .rowDivMainBlog {
+    /* display: flex; */
+    /* flex-direction: column; */
+    height: 90vh;
+  }
+  .imgMainSingleBlog {
+    width: auto;
+  }
+}

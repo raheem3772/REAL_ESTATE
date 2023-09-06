@@ -61,3 +61,55 @@ code {
   height: 60vh;
   width: 100%;
 }
+.cardCompMain {
+  width: 20vw;
+}
+
+@media (max-width: 1200px) {
+  .cardCompMain {
+    width: 25vw;
+  }
+}
+
+@media (max-width: 1000px) {
+  .cardCompMain {
+    width: 30vw;
+  }
+}
+
+@media (max-width: 767px) {
+  .cardCompMain {
+    width: 40vw;
+  }
+  .propertyCardsMain {
+    /* display: flex; */
+    flex-direction: column;
+  }
+  .cardCompMain {
+    width: 50vw;
+  }
+}
+
+@media (max-width: 500px) {
+  .cardCompMain {
+    width: 70vw;
+  }
+}
+@media (max-width: 400px) {
+  .cardCompMain {
+    width: 80vw;
+  }
+}
+@media screen and (max-width: 768px) {
+  .container {
+    width: 100vw;
+  }
+}
+
+/* For small screens */
+@media screen and (max-width: 480px) {
+  .container {
+    width: 100vw;
+    /* Adjust the styles for small screens */
+  }
+}

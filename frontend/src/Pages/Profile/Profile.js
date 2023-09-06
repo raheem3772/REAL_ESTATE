@@ -16,6 +16,7 @@ import "./Profile.css";
 export default function Profile() {
   const user_Id = localStorage.getItem("user_Id");
   const [image, setImage] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
   const [profileData, setProfileData] = useState({});
   const [inputData, setInputData] = useState({
     username: "",
@@ -40,6 +41,7 @@ export default function Profile() {
           contactInfo: val.data["contactInfo"],
           description: val.data["description"],
         });
+        setImagePreview(BASE_URL + "/" + val.data["image"]);
         setImage(val.data["image"]);
 
         setProfileData(val.data);
@@ -88,6 +90,11 @@ export default function Profile() {
     <div className="mainDivProfile">
       <div className="profileContents">
         <div>
+          <div className="d-flex justify-content-center align-items-center mb-4">
+            <div className="avatarProfile">
+              <img className="imgProfile" src={imagePreview} alt="" />
+            </div>
+          </div>
           <div className="rowDivProfile">
             <div className="inputProfileDiv">
               <strong>Agency Name</strong>
@@ -130,7 +137,7 @@ export default function Profile() {
             <div className="inputProfileDiv">
               <strong>Password</strong>
               <input
-                type="text"
+                type="password"
                 className="inputProfile"
                 name="password"
                 id="password"
@@ -148,7 +155,11 @@ export default function Profile() {
                 className="inputProfile"
                 name="image"
                 id="image"
-                onChange={(e) => setImage(e.target.files[0])}
+                onChange={(e) => {
+                  setImage(e.target.files[0]);
+
+                  setImagePreview(URL.createObjectURL(e.target.files[0]));
+                }}
               />
             </div>
           </div>

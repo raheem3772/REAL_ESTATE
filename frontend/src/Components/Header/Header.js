@@ -17,6 +17,7 @@ const Header = ({ token, setAdminId, agencyMainValidation, adminId }) => {
             : "REAL HOME ESTATE"}
         </h2>
       </div>
+
       <div className="navLinksDiv">
         {agencyMainValidation !== null &&
         agencyMainValidation.includes(userId) ? (

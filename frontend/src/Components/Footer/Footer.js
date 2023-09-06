@@ -59,7 +59,7 @@ const Footer = ({ agencyMainValidation }) => {
           </a>
         </section>
 
-        <section className="">
+        {/* <section className="">
           <form action="">
             <div className="row d-flex justify-content-center">
               <div className="col-auto">
@@ -88,7 +88,7 @@ const Footer = ({ agencyMainValidation }) => {
               </div>
             </div>
           </form>
-        </section>
+        </section> */}
 
         <section className="">
           <div className="row">
@@ -109,79 +109,107 @@ const Footer = ({ agencyMainValidation }) => {
                 agencyMainValidation.includes(userId) ? (
                   <>
                     <li className="my-3">
-                      <Link to="profile" className="text-white ">
+                      <NavLink
+                        to="profile"
+                        className="text-white text-decoration-none  "
+                      >
                         Profile
-                      </Link>
+                      </NavLink>
                     </li>
                     <li className="my-3">
-                      <Link to="myproperty" className="text-white ">
+                      <NavLink
+                        to="myproperty"
+                        className="text-white text-decoration-none  "
+                      >
                         My Properties
-                      </Link>
+                      </NavLink>
                     </li>
                     <li className="my-3">
-                      <Link to="properties" className="text-white ">
+                      <NavLink
+                        to="properties"
+                        className="text-white text-decoration-none  "
+                      >
                         Properties
-                      </Link>
+                      </NavLink>
                     </li>
                     <li className="my-3">
-                      <Link to="message" className="text-white ">
+                      <NavLink
+                        to="message"
+                        className="text-white text-decoration-none  "
+                      >
                         Messages
-                      </Link>
+                      </NavLink>
                     </li>
                     <li className="my-3">
-                      <Link to="reviews" className="text-white ">
+                      <NavLink
+                        to="reviews"
+                        className="text-white text-decoration-none  "
+                      >
                         Review
-                      </Link>
+                      </NavLink>
                     </li>
                   </>
                 ) : (
                   <>
                     <li className="my-3">
-                      <Link to="profile" className="text-white ">
+                      <NavLink
+                        to="profile"
+                        className="text-white text-decoration-none   "
+                      >
                         Home
-                      </Link>
+                      </NavLink>
                     </li>
                     <li className="my-3">
-                      <Link to="myproperty" className="text-white ">
+                      <NavLink
+                        to="myproperty"
+                        className="text-white text-decoration-none  "
+                      >
                         Properties
-                      </Link>
+                      </NavLink>
                     </li>
                     <li className="my-3">
-                      <Link to="properties" className="text-white ">
+                      <NavLink
+                        to="properties"
+                        className="text-white text-decoration-none  "
+                      >
                         Agencies
-                      </Link>
+                      </NavLink>
                     </li>
                     <li className="my-3">
-                      <Link to="message" className="text-white ">
+                      <NavLink
+                        to="message"
+                        className="text-white text-decoration-none  "
+                      >
                         Fav Property
-                      </Link>
+                      </NavLink>
                     </li>
                     <li className="my-3">
-                      <Link to="reviews" className="text-white ">
+                      <NavLink
+                        to="reviews"
+                        className="text-white text-decoration-none  "
+                      >
                         Blogs
-                      </Link>
+                      </NavLink>
                     </li>
                   </>
                 )}
               </ul>
             </div>
 
-            <div className="col-lg-4 col-md-6 mb-4 mb-md-0">
-              <h5 className="text-uppercase">Contact Details</h5>
-              <p className="text-start">
+            <div className="col-lg-4 col-md-6 mb-4 mb-md-0 d-flex flex-column align-items-center justify-content-center ">
+              <h5 className="text-uppercase mb-4">Contact Details</h5>
+              <p className="text-center">
                 <b> Location: </b>
-                <br /> Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Rerum, temporibus!
+                Al rehman garden phase 4
               </p>
-              <p className="text-start">
+              <p className="text-center">
                 <b> Email: </b>
-                <br />
-                <span className="text-primary">example12@gmail.com</span>{" "}
+
+                <span className="text-primary">info@realhomeestate.com</span>
               </p>
-              <p className="text-start">
-                <b> Phone: </b>
-                <br />
-                (+XX) XXX XXXXXXX <br />
+              <p className="text-center">
+                <b> Tel: </b>
+                (+92) 300 3423992 <br />
               </p>
             </div>
           </div>

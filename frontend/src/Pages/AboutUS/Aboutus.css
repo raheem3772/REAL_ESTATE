@@ -26,3 +26,34 @@
 .heightContectMainABout {
   height: 80vh;
 }
+@media (max-width: 1000px) {
+  .heightContectMainABout {
+    margin-bottom: 2rem;
+  }
+  .h1TagPicCard {
+    font-size: 2rem;
+  }
+  .pTagPicCard {
+    font-size: 14px;
+    width: 70vw;
+  }
+}
+
+@media (max-width: 500px) {
+  .pTagPicCard {
+    font-size: 12px;
+    width: 80vw;
+  }
+}
+
+@media (max-width: 343px) {
+  .h1TagPicCard {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .h1TagPicCard {
+    font-size: 1.2rem;
+  }
+}

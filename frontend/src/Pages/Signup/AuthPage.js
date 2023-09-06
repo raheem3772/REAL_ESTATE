@@ -4,7 +4,9 @@ import { NavLink, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../BaseRealEstate";
 import SignUp from "./SignUp";
+import { Button } from "@mui/material";
 const AuthPage = () => {
+  const navigate = useNavigate();
   return (
     <div className="signUpMainContainer">
       <div className="backgroundFilterSignUp my-gradient"></div>
@@ -19,6 +21,9 @@ const AuthPage = () => {
             </NavLink>
           </div>
           <Outlet />
+          <div className="d-flex justify-content-center align-items-center">
+            <Button onClick={() => navigate("/")}>Back to Dashboard</Button>
+          </div>
         </div>
       </div>
     </div>

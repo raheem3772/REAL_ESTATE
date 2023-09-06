@@ -92,8 +92,8 @@ const Blogs = ({ token }) => {
                   alt=""
                 />
               </div>
-              <div className="col-md-8 overflow-hidden d-flex justify-content-center flex-column">
-                <h2 className="text-black">{val.title}</h2>
+              <div className=" blogContentMain col-md-8 overflow-hidden d-flex justify-content-center flex-column">
+                <h2 className="text-black  titleBlog">{val.title}</h2>
                 <p className="eclipse">{val.content}</p>
                 <strong>{user !== undefined && user.username}</strong>
                 <strong>{val.publish_date.split("T", 1)}</strong>

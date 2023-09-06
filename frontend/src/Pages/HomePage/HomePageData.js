@@ -26,6 +26,8 @@ const HomePageData = ({ token, adminId }) => {
   const [propertySingleData, setpropertySingleData] = useState({});
   const user_id = localStorage.getItem("user_Id");
   const [propertyData, setpropertyData] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
   const handlePostFav = async (property_id) => {
     const user_id = localStorage.getItem("user_Id");
     await axios
@@ -77,11 +79,28 @@ const HomePageData = ({ token, adminId }) => {
       })
       .catch((e) => console.log(e));
   };
+  useEffect(() => {
+    // Function to update windowWidth state when the window resizes
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
 
+    // Attach the event listener when the component mounts
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array to run the effect only once
+
+  useEffect(() => {
+    console.log(`Window width changed to: ${windowWidth}`);
+  }, [windowWidth]);
   return (
     <div>
       <div className="my-4 bg-blue-500">
-        <h1 className="text-center iconsHelpCard">How i can Help you!</h1>
+        <h1 className="text-center iconsHelpCard">How can I Help you?</h1>
         <div className="help3Cards">
           <div className="helpCard">
             <HomeIcon className="iconsHelpCard" sx={{ fontSize: "5rem" }} />
@@ -124,17 +143,7 @@ const HomePageData = ({ token, adminId }) => {
 
           <Slider
             infinite={true}
-            slidesToShow={
-              (propertyData.filter((val) => val.is_featured === true).length ===
-                1 &&
-                1) ||
-              (propertyData.filter((val) => val.is_featured === true).length ===
-                2 &&
-                2) ||
-              (propertyData.filter((val) => val.is_featured === true).length >
-                2 &&
-                3)
-            }
+            slidesToShow={windowWidth > 767 ? 3 : 1}
             slidesToScroll={1}
             autoplay={true}
             autoplaySpeed={3000} // Adjust the autoplay speed as needed

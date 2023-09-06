@@ -102,10 +102,11 @@ const SignUp = () => {
         window.alert("Something went wrong!");
       });
   };
+
   return (
     <div
       className="textFieldsDiv"
-      style={{ width: boolRegisterAgency === false ? "30vw" : "50vw" }}
+      // style={{ width: boolRegisterAgency === false ? "auto" : "50vw" }}
     >
       {boolRegisterAgency === false ? (
         <>
@@ -139,6 +140,7 @@ const SignUp = () => {
               name="password"
               value={inputData.password}
               onChange={handleInput}
+              placeholder="Type password"
             />
           </div>
           <div className="my-2">
@@ -148,11 +150,12 @@ const SignUp = () => {
               className="form-control"
               name="confirmpassword"
               value={inputData.confirmpassword}
+              placeholder="Type password"
               onChange={handleInput}
             />
           </div>
           <div className="my-2">
-            <strong>Attachment</strong>
+            <strong>Attachment (Image)</strong>
             <input
               type="file"
               className="form-control"
@@ -210,6 +213,7 @@ const SignUp = () => {
                 className="form-control"
                 name="password"
                 value={inputData.password}
+                placeholder="Type password"
                 onChange={handleInput}
               />
             </div>
@@ -220,6 +224,7 @@ const SignUp = () => {
                 className="form-control"
                 name="confirmpassword"
                 value={inputData.confirmpassword}
+                placeholder="Type password"
                 onChange={handleInput}
               />
             </div>
@@ -237,7 +242,7 @@ const SignUp = () => {
               />
             </div>
             <div className="my-2 col-md-6">
-              <strong>Documents</strong>
+              <strong>Documents (Legal Documents)</strong>
               <input
                 type="file"
                 className="form-control"
@@ -249,7 +254,7 @@ const SignUp = () => {
           </div>
           <div className="row">
             <div className="my-2 col-md-6">
-              <strong>Attachment</strong>
+              <strong>Attachment (Image)</strong>
               <input
                 type="file"
                 className="form-control"

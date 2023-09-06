@@ -78,7 +78,7 @@ const Login = () => {
       });
   };
   return (
-    <div className="textFieldsDiv" style={{ width: "30vw" }}>
+    <div className="textFieldsDiv">
       <div className="my-2">
         <strong>Email</strong>
         <input
@@ -94,6 +94,7 @@ const Login = () => {
         <strong>Password</strong>
         <input
           type="password"
+          placeholder="Type password"
           className="form-control"
           name="password"
           value={formData.password}

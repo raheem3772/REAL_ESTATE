@@ -127,6 +127,7 @@
 .propertyCardsMain {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .propertyCard {
@@ -173,4 +174,45 @@
 .propertySliderMain {
   flex-wrap: nowrap;
   /* overflow-x: scroll; */
+}
+@media (max-width: 1000px) {
+  .searchBarContainer {
+    width: 85vw;
+  }
+}
+@media (max-width: 767px) {
+  .h1TagPicCard {
+    font-size: 2rem;
+    margin: 0 1rem;
+  }
+  .seacrhBarContent {
+    flex-direction: column;
+  }
+  .searchBarContainer {
+    height: 60vh;
+  }
+  .selectTagMain {
+    width: 60vw;
+  }
+  .help3Cards {
+    flex-direction: column;
+  }
+  .helpCard {
+    width: 80vw;
+    margin: 2rem 0;
+  }
+}
+@media (max-width: 450px) {
+  .btnSearchMain {
+    width: 30vw;
+  }
+}
+
+@media (max-width: 400px) {
+  .h1TagPicCard {
+    font-size: 1rem;
+  }
+  .homePageMainContainer {
+    margin-top: 2rem;
+  }
 }

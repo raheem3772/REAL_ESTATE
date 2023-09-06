@@ -33,3 +33,21 @@
   justify-content: space-between;
   width: 65vw;
 }
+.avatarProfile {
+  width: 200px;
+  height: 200px;
+  background-color: grey;
+  border-radius: 50%; /* Using 50% to create a circular shape */
+  background-repeat: no-repeat;
+  background-size: cover; /* Ensures the image covers the entire container */
+  display: flex; /* Added flex to center the image horizontally and vertically */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.imgProfile {
+  width: 100%; /* Set the image width to 100% of its parent container */
+  height: 100%; /* Set the image height to 100% of its parent container */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  border-radius: 50%; /* Match the parent container's border-radius for a circular image */
+}
