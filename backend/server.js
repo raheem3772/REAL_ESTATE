@@ -18,13 +18,12 @@ app.use(bodyParser.json());
 app.use("/uploads", express.static("uploads"));
 
 mongoose.connect(
-  "mongodb+srv://faizyjutt11:Faiziii5893@cluster0.dbwaiz4.mongodb.net/Real_Estate?retryWrites=true&w=majority"
+  "mongodb+srv://raheem:roRb7fi2JU6n9TqE@cluster0.dbwaiz4.mongodb.net/Real_Estate?retryWrites=true&w=majority"
 );
 const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
 });
-
 // Routes
 const userRoutes = require("./routes/user");
 const agencyMain = require("./routes/agencyMain");

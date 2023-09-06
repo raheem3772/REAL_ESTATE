@@ -72,10 +72,17 @@ const UserController = {
     try {
       const { email, password } = req.body;
 
+      if (!email || !password) {
+        return res.status(401).json({ message: "Please fill all fields" });
+      }
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      if (!emailRegex.test(email)) {
+        return res.status(401).json({ message: "Invalid email format" });
+      }
       // Find user by email
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(401).json({ message: "Invalid Credentials" });
+        return res.status(401).json({ message: "User is not registered." });
       }
 
       // Compare passwords

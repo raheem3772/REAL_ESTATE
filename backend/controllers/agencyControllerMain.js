@@ -137,7 +137,7 @@ const agencyControllerMain = {
   updateAgency: async (req, res) => {
     try {
       const { id } = req.params;
-      const { username, email, password, description, contactInfo } = req.body;
+      const { username, email, description, contactInfo } = req.body;
 
       // Find the user to update
       const agencyMain = await AgencyMain.findById(id);
@@ -149,15 +149,15 @@ const agencyControllerMain = {
       // Update user data
       agencyMain.username = username;
       agencyMain.email = email;
-      agencyMain.password = password;
+      // agencyMain.password = password;
       agencyMain.description = description;
       agencyMain.contactInfo = contactInfo;
       agencyMain.image = image;
 
-      if (password) {
-        // Hash the updated password
-        agencyMain.password = await bcrypt.hash(password, 10);
-      }
+      // if (password) {
+      //   // Hash the updated password
+      //   agencyMain.password = await bcrypt.hash(password, 10);
+      // }
 
       const updatedAgency = await agencyMain.save();
       res.json(updatedAgency);

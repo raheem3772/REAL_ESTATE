@@ -10,11 +10,9 @@ router.get("/:id", PropertyController.getPropertyById);
 router.get("/city/:cityId", PropertyController.getPropertyByCity);
 router.get("/rent/", PropertyController.getPropertyrent);
 router.get("/buy/", PropertyController.getPropertybuy);
-
 // Apply upload.single middleware for the / route to handle file upload
 // router.post("/", upload.single("file"), PropertyController.addProperty);
 router.post("/", upload.array("image", 8), PropertyController.addProperty);
-
 router.put("/:id", upload.array("image", 8), PropertyController.updateProperty);
 router.put("/feature/:id", PropertyController.makePropertyFeature);
 router.delete("/:id", PropertyController.deleteProperty);
