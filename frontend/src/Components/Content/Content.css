@@ -1,0 +1,72 @@
+.contentMain {
+  /* z-index: 1; */
+  width: 100vw;
+
+  height: 7vh;
+  background-color: #06161835;
+  display: flex;
+  /* border-bottom: 3px solid rgb(7, 32, 5); */
+  align-items: center;
+  justify-content: space-around;
+  filter: brightness(120%);
+}
+.searchInput {
+  height: 2rem;
+  border-radius: 20px;
+  padding: 0 1rem 0 1rem;
+  border: none;
+  outline: none;
+}
+.contentdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+}
+.shapeDiv {
+  /* background-color: grey; */
+  /* backdrop-filter: blur(10px); */
+  height: 70vh;
+  /* border-radius: 50rem 50rem 0 0; */
+  /* border: 2px solid grey; */
+  /* background-color: #06161835; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 12px;
+}
+.pDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 20px;
+  /* background-color: grey; */
+  backdrop-filter: blur(3px);
+  /* background-color: rgba(255, 255, 255, 0.5); */
+}
+
+p {
+  text-align: justify;
+  
+}
+.h1Tag {
+  letter-spacing: 20px;
+  font-size: 5rem;
+  color: black;
+}
+
+.propertyDiv{
+  padding: 2rem 4rem 2rem 4rem ;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.7
+  );
+  backdrop-filter: blur(10px);
+  margin:0 2rem 0 2rem ;
+  border-radius: 12px;
+}
